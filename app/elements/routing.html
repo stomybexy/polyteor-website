@@ -44,19 +44,66 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     page(app.baseUrl, function() {
       app.route = 'home';
     });
-
-    page('/users', function() {
-      app.route = 'users';
+    
+    page('/tuto/intro', function() {
+      app.route = 'tuto-intro';
+    });
+    
+     page('/tuto/bootstrap', function() {
+      app.route = 'tuto-bootstrap';
+    });
+    
+    page('/tuto/databind', function() {
+      app.route = 'tuto-databind';
+    });
+    page('/tuto/forms', function() {
+      app.route = 'tuto-forms';
+    });
+    page('/tuto/routing', function() {
+      app.route = 'tuto-routing';
+    });
+    page('/tuto/auth', function() {
+      app.route = 'tuto-auth';
+    });
+    
+    page('/tuto/pub-sub', function() {
+      app.route = 'tuto-pub-sub';
     });
 
-    page('/users/:name', function(data) {
-      app.route = 'user-info';
-      app.params = data.params;
+    page('/tuto/ssp', function() {
+      app.route = 'tuto-ssp';
+    });
+    
+    page('/tuto/methods', function() {
+      app.route = 'tuto-methods';
     });
 
-    page('/contact', function() {
-      app.route = 'contact';
+    page('/tuto/tplif', function() {
+      app.route = 'tuto-tplif';
     });
+
+    page('/tuto/maps', function() {
+      app.route = 'tuto-maps';
+    });
+
+    page('/tuto/youtube', function() {
+      app.route = 'tuto-youtube';
+    });
+
+    page('/tuto/el', function() {
+      app.route = 'tuto-el';
+    });
+    
+    page('/tuto/files', function() {
+      app.route = 'tuto-files';
+    });
+    
+    page('/tuto/deploy', function() {
+      app.route = 'tuto-deploy';
+    });
+
+
+
 
     // 404
     page('*', function() {

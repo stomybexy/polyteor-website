@@ -1,0 +1,69 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/av-icons.html">
+
+<dom-module id="nav-el">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <div>
+            <a href="[[prev]]">
+                <paper-button raised>
+                    <iron-icon icon="av:skip-previous"></iron-icon>
+                    Previous
+                </paper-button>
+            </a>
+            
+            <a href="[[demo]]" target="_blank">
+                <paper-button raised>
+                    <iron-icon icon="av:play-arrow"></iron-icon>
+                    Live Demo
+                </paper-button>
+            </a>
+            
+            <a href="[[code]]" target="_blank">
+                <paper-button raised>
+                    <iron-icon icon="code"></iron-icon>
+                    Code Diff
+                </paper-button>
+            </a>
+
+            <a href="[[next]]">
+                <paper-button raised>
+                    Next
+                    <iron-icon icon="av:skip-next"></iron-icon>
+
+                </paper-button>
+            </a>
+        </div>
+    </template>
+    <script>
+        (function() {
+    'use strict';
+
+    Polymer({
+      is: 'nav-el',
+
+      properties: {
+        prev: String,
+        next: String,
+        demo: String,
+        code: String
+      }
+    });
+  })();
+    </script>
+</dom-module>

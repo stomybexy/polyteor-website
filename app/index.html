@@ -63,6 +63,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <body unresolved>
     <span id="browser-sync-binding"></span>
     <template is="dom-bind" id="app">
+        <prism-highlighter></prism-highlighter>
 
         <paper-drawer-panel id="paperDrawerPanel">
             <!-- Drawer Scroll Header Panel -->
@@ -88,88 +89,94 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             <span class="flex"></span>
                             <iron-icon icon="chevron-right"></iron-icon>
                         </paper-item>
-                        <paper-menu class="menu-content sublist">
-                            <a data-route="users" href="{{baseUrl}}users">                              
+                        <paper-menu class="menu-content sublist" attr-for-selected="data-route" selected="[[route]]">
+                            <a data-route="tuto-intro" href="{{baseUrl}}tuto/intro">                              
                                 <span class="flex"></span>
                                 <!--<iron-icon icon="info"></iron-icon>-->
-                                <span class="flex-6">Bootstrapping</span>
+                                <span class="flex-6">Introduction</span>
+                                <span class="flex"></span>                                
+                            </a>
+                            <a data-route="tuto-bootstrap" href="{{baseUrl}}tuto/bootstrap">                              
+                                <span class="flex"></span>
+                                <!--<iron-icon icon="info"></iron-icon>-->
+                                <span class="flex-6">Bootstraping</span>
                                 <span class="flex"></span>                                
                             </a>
 
-                            <a data-route="contact" href="{{baseUrl}}contact">
+                            <a data-route="tuto-databind" href="{{baseUrl}}tuto/databind">
                                 <span class="flex"></span>
                                 <span class="flex-6">3-way databinding</span>
                                 <span class="flex"></span>
                                 
                             </a>
-                             <a data-route="contact" href="{{baseUrl}}contact">
+                             <a data-route="tuto-forms" href="{{baseUrl}}tuto/forms">
                                 <span class="flex"></span>
                                 <span class="flex-6">Forms</span>
                                 <span class="flex"></span>
                                 
                             </a>
-                            <a data-route="contact" href="{{baseUrl}}contact">
+                            <a data-route="tuto-routing" href="{{baseUrl}}tuto/routing">
                                 <span class="flex"></span>
                                 <span class="flex-6">Routing</span>
                                 <span class="flex"></span>
                                 
                             </a>
                             
-                            <a data-route="contact" href="{{baseUrl}}contact">
+                            <a data-route="tuto-auth" href="{{baseUrl}}tuto/auth">
                                 <span class="flex"></span>
                                 <span class="flex-6">Authentication</span>
                                 <span class="flex"></span>
                                 
                             </a>
-                            <a data-route="contact" href="{{baseUrl}}contact">
+                            <a data-route="tuto-pub-sub" href="{{baseUrl}}tuto/pub-sub">
                                 <span class="flex"></span>
                                 <span class="flex-6">Publish/Subscribe</span>
                                 <span class="flex"></span>
                                 
                             </a>
-                            <a data-route="contact" href="{{baseUrl}}contact">
+                            <a data-route="tuto-ssp" href="{{baseUrl}}tuto/ssp">
                                 <span class="flex"></span>
                                 <span class="flex-6">Search, sort, pagination</span>
                                 <span class="flex"></span>
                                 
                             </a>
-                             <a data-route="contact" href="{{baseUrl}}contact">
+                             <a data-route="tuto-methods" href="{{baseUrl}}tuto/methods">
                                 <span class="flex"></span>
                                 <span class="flex-6">Meteor methods</span>
                                 <span class="flex"></span>
                                 
                             </a>
-                            <a data-route="contact" href="{{baseUrl}}contact">
+                            <a data-route="tuto-tplif" href="{{baseUrl}}tuto/tplif">
                                 <span class="flex"></span>
                                 <span class="flex-6">Conditional templates</span>
                                 <span class="flex"></span>
                                 
                             </a>
-                            <a data-route="contact" href="{{baseUrl}}contact">
+                            <a data-route="tuto-maps" href="{{baseUrl}}tuto/maps">
                                 <span class="flex"></span>
                                 <span class="flex-6">Google Maps</span>
                                 <span class="flex"></span>
                                 
                             </a>
-                            <a data-route="contact" href="{{baseUrl}}contact">
+                            <a data-route="tuto-youtube" href="{{baseUrl}}tuto/youtube">
                                 <span class="flex"></span>
                                 <span class="flex-6">Youtube</span>
                                 <span class="flex"></span>
                                 
                             </a>
-                            <a data-route="contact" href="{{baseUrl}}contact">
+                            <a data-route="tuto-el" href="{{baseUrl}}tuto/el">
                                 <span class="flex"></span>
                                 <span class="flex-6">Custom reusable elements</span>
                                 <span class="flex"></span>
                                 
                             </a>
-                            <a data-route="contact" href="{{baseUrl}}contact">
+                            <a data-route="tuto-files" href="{{baseUrl}}tuto/files">
                                 <span class="flex"></span>
                                 <span class="flex-6">Handling Files with CollectionFS</span>
                                 <span class="flex"></span>
                                 
                             </a>
-                            <a data-route="contact" href="{{baseUrl}}contact">
+                            <a data-route="tuto-deploy" href="{{baseUrl}}tuto/deploy">
                                 <span class="flex"></span>
                                 <span class="flex-6">Deployment</span>
                                 <span class="flex"></span>
@@ -234,6 +241,48 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <!-- Main Content -->
                 <div class="content">
                     <iron-pages attr-for-selected="data-route" selected="{{route}}">
+                        <section data-route="tuto-intro">
+                            <tuto-intro></tuto-intro>
+                        </section>
+                        <section data-route="tuto-bootstrap">
+                            <tuto-bootstrap></tuto-bootstrap>
+                        </section>
+                        <section data-route="tuto-databind">
+                            <tuto-databind></tuto-databind>
+                        </section>
+                        <section data-route="tuto-forms">
+                            <tuto-forms></tuto-forms>
+                        </section>
+                        <section data-route="tuto-routing">
+                            <tuto-routing></tuto-routing>
+                        </section>
+                        <section data-route="tuto-auth">
+                            <tuto-auth></tuto-auth>
+                        </section>
+                        <section data-route="tuto-pub-sub">
+                            <tuto-pub-sub></tuto-pub-sub>
+                        </section>
+                        <section data-route="tuto-ssp">
+                            <tuto-ssp></tuto-ssp>
+                        </section>
+                        <section data-route="tuto-methods">
+                            <tuto-methods></tuto-methods>
+                        </section>
+                        <section data-route="tuto-tplif">
+                            <tuto-tplif></tuto-tplif>
+                        </section>
+                        <section data-route="tuto-maps">
+                            <tuto-maps></tuto-maps>
+                        </section>
+                        <section data-route="tuto-el">
+                            <tuto-el></tuto-el>
+                        </section>
+                        <section data-route="tuto-files">
+                            <tuto-files></tuto-files>
+                        </section>
+                        <section data-route="tuto-deploy">
+                            <tuto-deploy></tuto-deploy>
+                        </section>
                         <section data-route="home">
                             <paper-material elevation="1">
                                 <my-greeting></my-greeting>

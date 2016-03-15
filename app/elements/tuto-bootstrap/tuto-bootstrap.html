@@ -1,0 +1,114 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+
+
+
+
+
+
+<dom-module id="tuto-bootstrap">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+            nav-el{
+                margin: 20px;
+            }
+           
+        </style>
+        
+        
+        <nav-el prev="/tuto/intro" demo="https://www.meteor.com" next="/tuto/databind" code="https://www.github.com/stomybexy"></nav-el>
+
+        
+
+        <paper-material>
+            <marked-element>
+
+                <script type="text/markdown">
+
+                    # Step 0 - Bootstrapping 
+                    
+                    Let's get started building the app. In this step, we will:
+                    
+                    * Setup Meteor and create the app
+                    
+                    * Become familiar with the app structure
+                    
+                    * Add polyteor package to connect polymer front end
+                    
+                    * Run the app in the browser
+                    
+                    
+                  
+                </script>
+            </marked-element>
+        </paper-material>
+        
+         <paper-material>
+            <marked-element>
+
+                <script type="text/markdown">
+
+                    
+                    ## Meteor setup
+                    
+                    First of all - let's install Meteor!
+                    
+                    Open your command line and paste this command:
+                    
+                    ```sh
+                    $ curl https://install.meteor.com/ | sh
+                    ```
+                    
+                    If you are on a Windows machine, go <a href="https://www.meteor.com/install" target="_blank">here</a> to install Meteor.
+                    
+                    Now let's create our app — write this in the command line
+                    
+                     ```sh
+                    $ meteor create socially
+                    ```
+                    
+                    Go into the folder and run the app.
+                    
+                    ```sh
+                    $ cd socially && meteor
+                    ```
+                </script>
+            </marked-element>
+        </paper-material>
+        
+        <nav-el prev="/tuto/intro" demo="https://www.meteor.com" next="/tuto/databind" code="https://www.github.com/stomybexy"></nav-el>
+        
+    </template>
+    <script>
+        (function() {
+    'use strict';
+
+    Polymer({
+      is: 'tuto-bootstrap',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'tuto-bootstrap',
+          notify: true
+        }
+      }
+    });
+  })();
+    </script>
+</dom-module>
