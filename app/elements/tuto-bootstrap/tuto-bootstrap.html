@@ -23,9 +23,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <style include="shared-styles">
             :host {
                 display: block;
+                line-height: 30px;
             }
             nav-el{
                 margin: 20px;
+            }
+            .section-title{
+                color: var(--paper-purple-400)
+            }
+            .markdown-html pre {
+                background-color: var(--paper-grey-300);
+            }
+            .mark{
+                color: var(--paper-blue-grey-600)
             }
            
         </style>
@@ -36,49 +46,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
 
         <paper-material>
-            <marked-element>
+          <h1 class="page-title">Step 0 - Bootstrapping</h1>
+            <p> Let's get started building the app. In this step, we will:</p>
+            <ul>
+                <li>Setup Meteor and create the app</li>
+                <li>Add polyteor package to connect polymer front end</li>
+                <li>Run the app in the browser</li>
+            </ul>
 
-                <script type="text/markdown">
-
-                    # Step 0 - Bootstrapping 
-                    
-                    Let's get started building the app. In this step, we will:
-                    
-                    * Setup Meteor and create the app
-                    
-                    * Become familiar with the app structure
-                    
-                    * Add polyteor package to connect polymer front end
-                    
-                    * Run the app in the browser
-                    
-                    
-                  
-                </script>
-            </marked-element>
         </paper-material>
         
          <paper-material>
+             <h2 class="section-title">Meteor setup</h2>
+
             <marked-element>
-
+                <div class="markdown-html"></div>
                 <script type="text/markdown">
-
-                    
-                    ## Meteor setup
-                    
-                    First of all - let's install Meteor!
-                    
-                    Open your command line and paste this command:
+                     First of all - let's install Meteor!
+                     
+                     Open your command line and paste this command :
                     
                     ```sh
                     $ curl https://install.meteor.com/ | sh
                     ```
-                    
+
+               
                     If you are on a Windows machine, go <a href="https://www.meteor.com/install" target="_blank">here</a> to install Meteor.
                     
                     Now let's create our app — write this in the command line
                     
-                     ```sh
+                    ```sh
                     $ meteor create socially
                     ```
                     
@@ -86,9 +83,155 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     
                     ```sh
                     $ cd socially && meteor
+                    
+                    => Started proxy
+                    => Started MongoDB.
+                    => Started your app.
+                    => App running at: http://localhost:3000/
                     ```
+                    
+                    Now go to the <a href="http://localhost:3000" target="_blank">http://localhost:3000</a> to enjoy your app 
+                    running on your computer.
+                    
+                    This is a fully functional app including server and client codes.
+                    
+                    It contains three files, one <b>js</b>, one <b>html</b> and one <b>css</b> file. 
+                    The names of these files are the name of your application in the <b>create</b> command above, 
+                    in our case <b>socially</b>
+                    
+                    We will build an app from scratch. Delete the three files.
+                    
+                    Create a directory called <b>client</b>. This is a special folder. Files inside this folder 
+                    are run on client only. Make sure to name it so. More about that later.
+            </script>
+         </marked-element> 
+            
+        </paper-material>
+        
+        <paper-material>
+            <h2 class="section-title">Adding polymer</h2>
+            <marked-element>
+                <div class="markdown-html"></div>
+                <script type="text/markdown">
+                    
+                    In the command line add the package <b>polyteor</b>.
+                    
+                    ```sh
+                    $ meteor add jonatan:polyteor
+                    ```
+                    
+                    After that start your app with:
+                    
+                    ```sh
+                    $ meteor
+                    ```
+                    You will get an error similar to that: 
+                    
+                    ```sh
+                    error: conflict: two packages included in the app (static-html and templating) 
+                    are both trying to handle *.html
+                    ```
+                    
+                    
+                    This is because <b>polyteor</b> adds a package to compile <b>html</b> files which 
+                    
+                    is in conflict with meteor default templating build plugin. Don't worry, we are gonna 
+                    
+                    solve that. In console, type this:
+                    
+                    ```sh
+                    $ meteor remove blaze-html-templates
+                    ```
+                    If you see an error about an missing <b>.bowerrc</b>, you can safely ignore it.
+                    
+                    So let's see what we've got:
+                    
+                    * <div class="mark">static-htm compiler</div> 
+                     
+                    * <div class="mark">polyteor-element</div>
+                    
+                    * <div class="mark">vulcanize build plugin</div>
+                    
+                    Elements are inside public folder.                    
+
                 </script>
             </marked-element>
+        </paper-material>
+        
+         <paper-material>
+            <h2 class="section-title">Adding index file</h2>
+            <marked-element>
+                <div class="markdown-html"></div>
+                <script type="text/markdown">
+                 Inside client folder, create an ```index.html``` file.  
+                 Put this inside : 
+                 
+                 ```html
+                 <body>
+                    <p>Polyteor rocks!</p>
+                 </body> 
+                ```
+                 Run your app and see ```Polyteor rocks!``` in your browser.
+                 
+                 <b>static-html</b> compiler concatenate all <b>html</b>. Files inside 
+                 public folder are skipped.
+                 
+                 
+                </script>
+            </marked-element>
+        </paper-material>
+        
+        <paper-material>
+            <h2 class="section-title">Adding Webcomponents</h2>
+            <marked-element>
+                <div class="markdown-html"></div>
+                <script type="text/markdown">
+                  <b>Polyteor</b> package install a <b>vulcanize</b> build plugin for polymer elements imports.
+                  
+                  In the root of your app folder, create a ```config.vulcanize``` file wih the following content : 
+                  
+                  ```js
+                    {
+                        "polyfill": "/bower_components/webcomponentsjs/webcomponents-lite.min.js",
+                        "imports": []
+                     }
+                  ```  
+                 Inside <b>public</b> folder, create a folder named <b>elements</b> and a file <b>elements.html</b> inside it
+                 with the following content :
+                 
+                 ```html
+                    <link rel="import" href="../bower_components/polymer/polymer.html">
+                 ```  
+                Then, edit ```config.vulcanize``` file to obtain this : 
+                
+                ```js
+                      {
+                         "polyfill": "/bower_components/webcomponentsjs/webcomponents-lite.min.js",
+                         "imports": [
+                              "/elements/elements.html"
+                             ]
+                       }
+                ```    
+                Now edit ```index.html``` file inside <b>client</b> folder to obtain 
+                this ( without space between curly braces put here for escape purposes ) : 
+                
+                ```
+                    <body>
+                          <template is="dom-bind">                            
+                             <div>Type anything in the input and see it displaying here: { { greeting::input } }</div>
+                             <input type="text" value="{ { greeting::input } }">                         
+                          </template>
+                    </body>
+                ```         
+                Run the app, type anything in the input and see it displaying on top.
+                
+                Remember to <a href="https://developer.chrome.com/devtools/docs/settings" target="_blank">disable cache on browser</a> 
+                if the page does not get updated.
+                
+                Polymer binds the content of the ```div``` to the value of the ```input```.                                      
+                </script>
+            </marked-element> 
+                       
         </paper-material>
         
         <nav-el prev="/tuto/intro" demo="https://www.meteor.com" next="/tuto/databind" code="https://www.github.com/stomybexy"></nav-el>
@@ -104,7 +247,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         foo: {
           type: String,
-          value: 'tuto-bootstrap',
+          value: 'greeting::input',
           notify: true
         }
       }
