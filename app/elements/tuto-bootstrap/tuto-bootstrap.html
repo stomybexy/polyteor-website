@@ -23,6 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <style include="shared-styles">
             :host {
                 display: block;
+                word-wrap: break-word;
             }
             
             nav-el {
@@ -35,7 +36,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             
             .markdown-html pre {
                 background-color: var(--paper-grey-300);
+                overflow-x: auto;
             }
+
+                
+
             
             .mark {
                 color: var(--paper-blue-grey-600)
