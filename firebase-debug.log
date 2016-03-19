@@ -1,0 +1,17 @@
+[debug] ----------------------------------------------------------------------
+[debug] Command:      C:\Program Files (x86)\nodejs\node.exe C:\Users\Jonatan\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy
+[debug] Platform:     win32
+[debug] Node Version: v5.6.0
+[debug] Time:         Sat Mar 19 2016 15:56:11 GMT+0000 (Morocco Standard Time)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[debug] >>> HTTP REQUEST GET https://admin.firebase.com/firebase/polyteor/token?token=XXX 
+[debug] <<< HTTP RESPONSE 200
+[debug] >>> HTTP REQUEST GET https://admin.firebase.com/firebase/polyteor/token?token=XXX 
+[debug] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'polyteor'...
+[info] 
+[info] i  deploying hosting
+[info] i  preparing dist directory for upload...
+[debug] >>> HTTP REQUEST PUT https://deploy.firebase.com/firebase/polyteor/uploads/-KDE_pZHrGj9CNskZ96z?token=XXX&fileCount=116&message= 
