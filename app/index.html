@@ -75,14 +75,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </paper-toolbar>
 
                 <!-- Drawer Content -->
-                <paper-menu attr-for-selected="data-route" selected="[[route]]" attr-for-item-title="label">
-                    <a data-route="home" href="{{baseUrl}}">
+                <paper-menu attr-for-selected="data-route" selected="[[route]]" >
+                    <a data-route="about" href="{{baseUrl}}">
                         <iron-icon icon="home"></iron-icon>
                         <span>About Polyteor</span>
                     </a>
 
                    
-                    <paper-submenu label="tutorial">
+                    <paper-submenu label="tutorial" id="tutoMenu">
                         <paper-item class="menu-trigger">
                             <iron-icon icon="book"></iron-icon>
                             <span>Tutorial</span>
@@ -91,94 +91,94 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         </paper-item>
                         <paper-menu class="menu-content sublist" attr-for-selected="data-route" selected="[[route]]">
                             <a data-route="tuto-intro" href="{{baseUrl}}tuto/intro">                              
-                                <span class="flex"></span>
+                                <!--<span class="flex"></span>-->
                                 <!--<iron-icon icon="info"></iron-icon>-->
-                                <span class="flex-6">Introduction</span>
+                                <span class="flex-6">0. Introduction</span>
                                 <span class="flex"></span>                                
                             </a>
                             <a data-route="tuto-bootstrap" href="{{baseUrl}}tuto/bootstrap">                              
-                                <span class="flex"></span>
+                                <!--<span class="flex"></span>-->
                                 <!--<iron-icon icon="info"></iron-icon>-->
-                                <span class="flex-6">Bootstraping</span>
+                                <span class="flex-6">1. Bootstraping</span>
                                 <span class="flex"></span>                                
                             </a>
 
                             <a data-route="tuto-databind" href="{{baseUrl}}tuto/databind">
-                                <span class="flex"></span>
-                                <span class="flex-6">3-way databinding</span>
+                                <!--<span class="flex"></span>-->
+                                <span class="flex-6">2. 3-way databinding</span>
                                 <span class="flex"></span>
                                 
                             </a>
                              <a data-route="tuto-forms" href="{{baseUrl}}tuto/forms">
-                                <span class="flex"></span>
-                                <span class="flex-6">Forms</span>
+                                <!--<span class="flex"></span>-->
+                                <span class="flex-6">3. Forms</span>
                                 <span class="flex"></span>
                                 
                             </a>
                             <a data-route="tuto-routing" href="{{baseUrl}}tuto/routing">
-                                <span class="flex"></span>
-                                <span class="flex-6">Routing</span>
+                                <!--<span class="flex"></span>-->
+                                <span class="flex-6">4. Routing</span>
                                 <span class="flex"></span>
                                 
                             </a>
                             
                             <a data-route="tuto-auth" href="{{baseUrl}}tuto/auth">
-                                <span class="flex"></span>
-                                <span class="flex-6">Authentication</span>
+                                <!--<span class="flex"></span>-->
+                                <span class="flex-6">5. Authentication</span>
                                 <span class="flex"></span>
                                 
                             </a>
                             <a data-route="tuto-pub-sub" href="{{baseUrl}}tuto/pub-sub">
-                                <span class="flex"></span>
-                                <span class="flex-6">Publish/Subscribe</span>
+                                <!--<span class="flex"></span>-->
+                                <span class="flex-6">6. Publish/Subscribe</span>
                                 <span class="flex"></span>
                                 
                             </a>
                             <a data-route="tuto-ssp" href="{{baseUrl}}tuto/ssp">
-                                <span class="flex"></span>
-                                <span class="flex-6">Search, sort, pagination</span>
+                                <!--<span class="flex"></span>-->
+                                <span class="flex-6">7. Search, sort, pagination</span>
                                 <span class="flex"></span>
                                 
                             </a>
                              <a data-route="tuto-methods" href="{{baseUrl}}tuto/methods">
-                                <span class="flex"></span>
-                                <span class="flex-6">Meteor methods</span>
+                                <!--<span class="flex"></span>-->
+                                <span class="flex-6">8. Meteor methods</span>
                                 <span class="flex"></span>
                                 
                             </a>
                             <a data-route="tuto-tplif" href="{{baseUrl}}tuto/tplif">
-                                <span class="flex"></span>
-                                <span class="flex-6">Conditional templates</span>
+                                <!--<span class="flex"></span>-->
+                                <span class="flex-6">9. Conditional templates</span>
                                 <span class="flex"></span>
                                 
                             </a>
                             <a data-route="tuto-maps" href="{{baseUrl}}tuto/maps">
-                                <span class="flex"></span>
-                                <span class="flex-6">Google Maps</span>
+                                <!--<span class="flex"></span>-->
+                                <span class="flex-6">10. Google Maps</span>
                                 <span class="flex"></span>
                                 
                             </a>
                             <a data-route="tuto-youtube" href="{{baseUrl}}tuto/youtube">
-                                <span class="flex"></span>
-                                <span class="flex-6">Youtube</span>
+                                <!--<span class="flex"></span>-->
+                                <span class="flex-6">11. Youtube</span>
                                 <span class="flex"></span>
                                 
                             </a>
                             <a data-route="tuto-el" href="{{baseUrl}}tuto/el">
-                                <span class="flex"></span>
-                                <span class="flex-6">Custom reusable elements</span>
+                                <!--<span class="flex"></span>-->
+                                <span class="flex-6">12. Reusable elements</span>
                                 <span class="flex"></span>
                                 
                             </a>
                             <a data-route="tuto-files" href="{{baseUrl}}tuto/files">
-                                <span class="flex"></span>
-                                <span class="flex-6">Handling Files with CollectionFS</span>
+                                <!--<span class="flex"></span>-->
+                                <span class="flex-6">13. Files</span>
                                 <span class="flex"></span>
                                 
                             </a>
                             <a data-route="tuto-deploy" href="{{baseUrl}}tuto/deploy">
-                                <span class="flex"></span>
-                                <span class="flex-6">Deployment</span>
+                                <!--<span class="flex"></span>-->
+                                <span class="flex-6">14. Deployment</span>
                                 <span class="flex"></span>
                                 
                             </a>
@@ -195,14 +195,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         </paper-item>
                         <paper-menu class="menu-content sublist">
                             <a data-route="users" href="{{baseUrl}}users">                              
-                                <span class="flex"></span>
+                                <!--<span class="flex"></span>-->
                                 <!--<iron-icon icon="info"></iron-icon>-->
                                 <span class="flex-6">polyteor-element</span>
                                 <span class="flex"></span>                                
                             </a>
 
                             <a data-route="contact" href="{{baseUrl}}contact">
-                                <span class="flex"></span>
+                                <!--<span class="flex"></span>-->
                                 <span class="flex-6">polyteor-auth</span>
                                 <span class="flex"></span>
                                 
@@ -216,33 +216,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </paper-scroll-header-panel>
 
             <!-- Main Area -->
-            <paper-scroll-header-panel main id="headerPanelMain" condenses keep-condensed-header>
+            <paper-scroll-header-panel main id="headerPanelMain"  fixed>
                 <!-- Main Toolbar -->
-                <paper-toolbar id="mainToolbar" class="tall">
+                <paper-toolbar id="mainToolbar">
                     <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
-
+                     
+                     <!-- Application name -->
+                    <!--<div class="middle middle-container">-->
+                        <div class="title">Polyteor</div>
+                    <!--</div>-->
                     <span class="space"></span>
 
                     <!-- Toolbar icons -->
                     <!--<paper-icon-button icon="refresh"></paper-icon-button>-->
                     <paper-icon-button icon="search"></paper-icon-button>
 
-                    <!-- Application name -->
-                    <div class="middle middle-container">
-                        <div class="app-name">Polyteor</div>
-                    </div>
+                    
 
                     <!-- Application sub title -->
-                    <div class="bottom bottom-container">
+                    <!--<div class="bottom bottom-container">
                         <div class="bottom-title">The future of the web powered by Meteor</div>
-                    </div>
+                    </div>-->
                 </paper-toolbar>
 
                 <!-- Main Content -->
                 <div class="content">
                     <iron-pages attr-for-selected="data-route" selected="{{route}}">
-                        <section data-route="home">
-                            <home-el></home-el>
+                        <section data-route="about">
+                            <home-el></home-el>                            
                         </section>
                         <section data-route="tuto-intro">
                             <tuto-intro></tuto-intro>
@@ -277,6 +278,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <section data-route="tuto-maps">
                             <tuto-maps></tuto-maps>
                         </section>
+                        <section data-route="tuto-youtube">
+                            <tuto-youtube></tuto-youtube>
+                        </section>
                         <section data-route="tuto-el">
                             <tuto-el></tuto-el>
                         </section>
@@ -286,8 +290,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <section data-route="tuto-deploy">
                             <tuto-deploy></tuto-deploy>
                         </section>
-                        <section data-route="home">
-
+                        <section data-route="comming-soon">
+                            <comming-soon></comming-soon>
                         </section>
 
                     </iron-pages>

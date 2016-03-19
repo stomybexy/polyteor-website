@@ -11,6 +11,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/av-icons.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+
+
 
 <dom-module id="nav-el">
     <template>
@@ -18,40 +22,106 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             :host {
                 display: block;
             }
-            div{
+            
+            div {
                 padding: 20px;
+            }
+            
+            paper-fab {
+                --paper-fab-background: var(--primary-color)
+            }
+            
+            #code paper-fab {
+                --paper-fab-background: grey
+            }
+            
+            #next {
+                position: fixed;
+                right: 200px;
+                bottom: 100px;
+            }
+            
+            #previous {
+                position: fixed;
+                left: 456px;
+                bottom: 100px;
+            }
+            
+            #code {
+                position: fixed;
+                right: 200px;
+                top: 100px;
+            }
+            
+            @media(max-width: 1601px) {
+                #next {
+                    position: fixed;
+                    right: 20px;
+                    bottom: 30px;
+                }
+                #previous {
+                    position: fixed;
+                    left: 276px;
+                    bottom: 30px;
+                }
+                #code {
+                    position: fixed;
+                    right: 20px;
+                    top: 100px;
+                }
+            }
+            
+            @media(max-width: 600px) {
+                #previous {
+                    position: fixed;
+                    left: 20px;
+                    bottom: 30px;
+                }
             }
         </style>
         <div>
-            <a href="[[prev]]">
+            <!--<a href="[[prev]]">
                 <paper-button raised>
                     <iron-icon icon="av:skip-previous"></iron-icon>
                     Previous
                 </paper-button>
-            </a>
-            
+            </a>-->
+
             <!--<a href="[[demo]]" target="_blank">
                 <paper-button raised>
                     <iron-icon icon="av:play-arrow"></iron-icon>
                     Live Demo
                 </paper-button>
             </a>-->
-            
-            <a href="[[code]]" target="_blank">
-                <paper-button raised>
-                    <iron-icon icon="code"></iron-icon>
-                    Code Diff
-                </paper-button>
+
+            <a id="code" href="[[code]]" target="_blank">
+                <paper-fab icon="code" >
+
+                </paper-fab>
+                <paper-tooltip for="code" offset="0">code diff</paper-tooltip>
             </a>
 
-            <a href="[[next]]">
+            <!--<a href="[[next]]">
                 <paper-button raised>
                     Next
                     <iron-icon icon="av:skip-next"></iron-icon>
 
                 </paper-button>
-            </a>
+            </a>-->
+
         </div>
+        <a id="previous" href="[[prev]]">
+            <paper-fab icon="chevron-left" ></paper-fab>
+            <paper-tooltip for="previous" offset="0">previous</paper-tooltip>
+
+        </a>
+        <a id="next" href="[[next]]">
+            <paper-fab href="[[next]]" icon="chevron-right" ></paper-fab>
+            <paper-tooltip for="next" offset="0">next</paper-tooltip>
+
+        </a>
+
+
     </template>
     <script>
         (function() {

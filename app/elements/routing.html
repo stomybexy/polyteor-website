@@ -22,10 +22,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
     // Middleware
-    function scrollToTop(ctx, next) {
-      app.scrollPageToTop();
-      next();
-    }
+    // function scrollToTop(ctx, next) {
+    //   app.scrollPageToTop();
+    //   next();
+    // }
 
     function closeDrawer(ctx, next) {
       app.closeDrawer();
@@ -33,20 +33,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
     // Routes
-    page('*', scrollToTop, closeDrawer, function(ctx, next) {
+    page('*', closeDrawer, function(ctx, next) {
       next();
     });
 
     page('/', function() {
-      app.route = 'home';
+      app.route = 'about';
     });
 
     page(app.baseUrl, function() {
-      app.route = 'home';
+      app.route = 'about';
     });
     
     page('/tuto/intro', function() {
+       
       app.route = 'tuto-intro';
+      app.$.tutoMenu.open();
+    //   console.log('Going to tuto')
     });
     
      page('/tuto/bootstrap', function() {
@@ -101,9 +104,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     page('/tuto/deploy', function() {
       app.route = 'tuto-deploy';
     });
+    
+    page('/comming-soon', function() {
+      app.route = 'comming-soon';
+    });
 
 
-
+    page('*', function() {
+      
+      page.redirect(app.baseUrl + 'comming-soon');
+    });
 
     // 404
     page('*', function() {

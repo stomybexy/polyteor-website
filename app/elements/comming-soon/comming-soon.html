@@ -11,31 +11,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 
-<dom-module id="my-list">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
+<dom-module id="comming-soon">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            
+            span {
+                @apply(--paper-font-body1);
+            }
+        </style>
+        <p>Comming soon ...</p>
+    </template>
 
-      span {
-        @apply(--paper-font-body1);
-      }
-    </style>
-
-    <ul>
-      <template is="dom-repeat" items="{{items}}">
-        <li><span>{{item}}</span></li>
-      </template>
-    </ul>
-  </template>
-
-  <script>
-    (function() {
+    <script>
+        (function() {
       'use strict';
 
       Polymer({
-        is: 'my-list',
+        is: 'comming-soon',
 
         properties: {
           items: {
@@ -56,5 +51,5 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       });
     })();
-  </script>
+    </script>
 </dom-module>

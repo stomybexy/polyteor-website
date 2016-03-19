@@ -10,7 +10,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
-<link rel="import" href="../../bower_components/paper-styles/default-theme.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+
 
 
 <dom-module id="home-el">
@@ -20,47 +23,59 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 display: block;
             }
             
-            p {
-                max-width: 800px;
-                line-height: 30px;
-            }
-            
             .title {
                 @apply(--paper-font-display2);
-                margin-bottom: 10px;
+                /*margin-bottom: 10px;*/
             }
             
             .slogan {
                 color: var(--secondary-text-color)
             }
+            
+            paper-material {
+                margin-top: 60px;
+            }
+            paper-button{
+                 background: var(--primary-color);
+                color: white;
+            }
+            .warning{
+                font-style: italic;
+            }
         </style>
 
+        <div calss="container">
+            <paper-material>
+                <div class=" title ">Polyteor</div>
+                <span class="slogan ">The future of the web powered by Meteor</span>.
+                
+                <p class="warning">Warning: Work in progress...</p>
+                <p>
+                    <b>Polyteor</b> is the attempt to bring the power of <b>Meteor</b> into the Polymer world, and the elegance
+                    and simplicity of <b>Polymer</b> into Meteor. It attemps to integrate the two frameworks with as less
+                    hacks as possible and in the more straightforward way.
+                </p>
+                <p>
+                    It is <a href="https://github.com/stomybexy/polyteor " target="_blank ">Open source</a>. It is a set
+                    of meteor packages and polymer elements.
 
-        <paper-material>
-            <div class="title">Polyteor</div>
-            <span class="slogan">When Elegance meets Power</span>.
-
-            <p>
-                <b>Polyteor</b> is the attempt to bring the power of <b>Meteor</b> into the Polymer world,
-                <br/> and the elegance and simplicity of <b>Polymer</b> into Meteor. It attemps to integrate 
-                <br />the two frameworks
-                with as less hacks as possible and in the more straightforward way.
-            </p>
-            <p>
-                It is <a href="https://github.com/stomybexy/polyteor" target="_blank">Open source</a>. It is a set of meteor
-                packages and polymer elements.
-
-            </p>
-            <p>
-                <a href="https://github.com/stomybexy/polyteor-demo-todo" target="_blank">Here<a> is a todo app built 
+                </p>
+                <p>
+                    <a href="https://github.com/stomybexy/polyteor-demo-todo " target="_blank ">Here<a> is a todo app built 
                     with Polyteor. 
                 
             </p>
             <p>Can't wait to start building amazing app with Polyteor?</p>
-                            <a href="/tuto/intro"> <paper-button raised>Goto to the tuto <iron-icon icon="send" ></iron-icon></paper-button></a>
+              <p>
+                        <a href="/tuto/intro">
+                            <paper-button raised>Goto to the tuto
+                                <iron-icon icon="send"></iron-icon>
+                            </paper-button>
+                        </a>
+                </p>
 
-
-        </paper-material>
+            </paper-material>
+        </div>
     </template>
 
     <script>
