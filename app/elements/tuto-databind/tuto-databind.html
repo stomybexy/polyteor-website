@@ -9,35 +9,372 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/ace-component/ace-element.html">
+
 
 <dom-module id="tuto-databind">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    
-    </style>
-    
-     <nav-el prev="/tuto/bootstrap" demo="https://www.meteor.com" next="/tuto/forms" code="https://www.github.com/stomybexy"></nav-el>
-    
-    <div>Comming soon ...</span></div>
-  </template>
-  <script>
-  (function() {
-    'use strict';
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+        </style>
 
-    Polymer({
-      is: 'tuto-databind',
+        <nav-el prev="/tuto/bootstrap" 
+                code="https://github.com/stomybexy/polyteor-demo-socially/commit/9e90952e5b1d83eecc3c69a12e170fe271ba147c" 
+                next="/tuto/forms"></nav-el>
 
-      properties: {
-        foo: {
-          type: String,
-          value: 'tuto-databind',
-          notify: true
-        }
-      }
-    });
-  })();
-  </script>
-</dom-module>
+        <paper-material>
+            <h1 class="page-title">2. 3-way databinding</h1>
+            <p>In this step, we will: </p>
+            <ol type="a">
+                <li>Create a polymer element that display its own data</li>
+                <li>Bind the element to meteor collection reactively</li>
+                <li>Experiment reactivity between polymer and meteor.</li>
+            </ol>
+
+        </paper-material>
+
+        <paper-material>
+            <h2 class="section-title">Creating a polymer element</h2>
+
+            <p>In <b>Polymer</b>, everything is an <code>element</code>. Put simply, an element is a sort of box that encapsulates <code>html</code>
+                <code>javascript</code> and <code>css</code> to fullfil a certain role. Elements add custom tags to the dom and act as native dom elements like <code>input, button, etc.</code>
+            </p>
+            <p>Let's create an element that display a list of parties. Inside <code>public/elements</code> folder, create a folder named <code>parties-list</code> and create a <code>parties-list.html</code> file inside that folder with the following content :
+            </p>
+            </marked-element>
+               <marked-element markdown="[[partiesListHtml]]">                                                         >
+                <div class="markdown-html"></div> 
+            </marked-element>
+
+            <p>
+                The code above define a <b>Polymer element</b> with a properties named <code>parties</code> 
+                initialized by the returned value of a function. The attribute <code>notify</code> set to <code>true</code>
+                indicates that this property is available for <b>2-way binding</b> which means that it allows updates from a
+                parent element.
+            </p>
+            <p>
+                Now let's import that element. Edit <code>public/elements.elements.html</code> and add :
+            </p>
+
+            <marked-element markdown="[[partiesListImport]]">
+                <div class="markdown-html"></div>
+
+            </marked-element>
+            
+             <p>
+                 Finally, edit <code>client/index.html</code> to obtain : 
+            </p>
+        
+             <marked-element markdown="[[indexHtml]]">
+                <div class="markdown-html"></div>
+            </marked-element>
+                    
+            <p>
+                Run your app and see our three parties displayed in the screen.
+
+            </p>
+        </paper-material>
+       
+        <paper-material>
+            <h2 class="section-title">Binding to Meteor collection</h2>
+            <p>
+                In this section, we will pull the list of parties from a <b>Meteor collection</b>.
+                In Meteor, every client has a mini in-memory database holding a subset of the server database.
+                
+                We can decide which data to send to clients by publishing data from server 
+                and subscribing to it on the client. More on that later. 
+            </p>
+            <p>
+                Meteor use <b>MongoDB</b> as the server database and 
+                <a href="https://atmospherejs.com/meteor/minimongo" target="_blank"><b>Minimongo</b></a>, a client-side Mongo emulator on client. Therefore, we can use the same queries on both server and client.
+            </p>
+            <p>
+                First of all, we will define a Meteor collection which is an instance of <b>Mongo.Collection</b> class.
+                Create the file <code>collections/parties.js</code> with the following content :
+            </p>
+            <marked-element>
+                <div class="markdown-html"></div>
+                <script type="text/markdown">
+                    ```js
+                     Parties = new Mongo.Collection('parties');
+                    ```
+                </script>
+            </marked-element>
+            
+                <p>
+        Since <code>collections</code> is not a special folder of Meteor, the file <code>parties.js</code> will be loaded 
+        both on server and client and the global variable <code>Parties</code> representing the collections <code>parties</code> will be available on server and client. To retrieve data from this collection on client, we will use <code>polyteor-collection</code> element provided by <code>polyteor</code> package added in the previous step. 
+        Edit <code>public/elements/parties-list/parties-list.html</code> and add the following line just below <code>polymer</code> import :
+    </p>
+    <marked-element markdown="[[polyteorCollectionImport]]">
+        <div class="markdown-html"></div>
+    </marked-element>
+    
+            <p>
+                Now <code>polyteor-collection</code> is available for use inside our <code>parties-list</code> element.
+                Edit <code>public/elements/parties-list/parties-list.html</code> file to obtain the following code :
+            </p>
+            
+            <marked-element markdown="[[partiesListHtml2]]">
+                <div class="markdown-html"></div>
+            </marked-element>
+            
+            <p>
+                We replaced the hard-coded data by data returned from database by <code>polyteor-collection</code>. 
+                So what's going here?
+                <ul>
+                    <li>
+                        Minimongo hold the published data from server. When we create a meteor app, it adds a package 
+                        that automatically publish all data from all collections. More on that later.
+                    </li>
+                    <li><code>polyteor-collection</code> queries that data into the <code>parties</code> property 
+                        that get updated whenever the result of the query changes. Here we are pulling all data 
+                        from collection since we didn't specify a selector.
+                    </li>
+                    <li>By specifying <code>autoupdate</code> in <code>polyteor-collection</code>,
+                    whenever data changes on client, it will be stored into local minimongo and synced 
+                        to server and broadcasted to other clients.
+                    </li>
+                </ul>
+            </p>
+    <p>
+        When you run this code, nothing appears on the browser. That is because our collection is empty. We will insert 
+        some sample data from the console. Run your app, and open another console and type : 
+    </p>
+    <marked-element>
+        <div class="markdown-html"></div>
+        <script type="text/markdown">
+            ```sh
+                meteor mongo
+            ```
+        </script>
+    </marked-element>
+    <p>At the prompt, enter:</p>
+    <marked-element>
+        <div class="markdown-html"></div>
+        <script type="text/markdown">
+            ```sh
+              db.parties.insert({ name: "A new party", description: "From the mongo console!", location: "Somewhere" });
+            ```
+        </script>
+    </marked-element>    
+    <p>The party get displayed automatically. You can try to remove it, on the console :</p>
+    <marked-element>
+        <div class="markdown-html"></div>
+        <script type="text/markdown">
+            ```sh
+              db.parties.remove({ name: "A new party"});
+            ```
+        </script>
+    </marked-element>    
+    <p>It dispears. Data goes from mongodb on server into minimongo on client and from there to polymer array and get 
+    displayed to the screen. The result of the query we made is kept up to date by Meteor <b>reactivity</b> and polymer 
+        <b>databinding</b>.
+    </p>
+    <p>Feel free to play arround this. Add, modify and delete data from the console.</p>
+    <p>To finish this step, let's initialize data from server. 
+        Create <code>server/load-parties.js</code> file with the following content: 
+    </p>
+    <marked-element>
+        <div class="markdown-html"></div>
+        <script type="text/markdown">
+            ```js
+            Meteor.startup(function(){
+            if (Parties.find().count() === 0) {
+                var parties = [
+                        {
+                            'name': 'Dubstep-Free Zone',
+                            'description': 'Can we please just for an evening not listen to dubstep.',
+                            'location': 'Palo Alto'
+                        },
+                        {
+                            'name': 'All dubstep all the time',
+                            'description': 'Get it on!',
+                            'location': 'Palo Alto'
+                        },
+                        {
+                            'name': 'Savage lounging',
+                            'description': 'Leisure suit required. And only fiercest manners.',
+                            'location': 'San Francisco'
+                        }
+                    ];
+                parties.forEach(function(party){
+                    Parties.insert(party);
+                })
+                
+                }
+              })
+            ```
+        </script>
+    </marked-element>        
+    <p>Stop the app, and from the console, type : </p>
+    <marked-element>
+        <div class="markdown-html"></div>
+        <script type="text/markdown">
+            ```sh
+              meteor reset
+            ```
+        </script>
+    </marked-element>   
+    <p>This will delete all the previous data. Run the app and see displayed on the screen the data inserted from 
+        server. In next step, we will add and remove data from client through forms.
+    </p>
+        </paper-material>
+    
+
+        
+    </template>
+    <script>
+        (function () {
+            'use strict';
+
+            Polymer({
+                is: 'tuto-databind',
+
+                properties: {
+                    partiesListHtml: {
+                        type: String,
+                        value: `
+            <link rel="import" href="../../bower_components/polymer/polymer.html"> 
+            <dom-module id="parties-list">
+                <template>
+                    <style>
+                        :host {
+                            display: block;
+                        }
+                    </style>
+                    <div>
+                        <ul>
+                            <template is="dom-repeat" items="{{parties}}" as="party">
+                                <li>
+                                    {{party.name}}
+                                    <p>{{party.description}}</p>
+                                    <p>{{party.location}}</p>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </template>
+                <script>
+                    (function() {
+                        'use strict';
+
+                        Polymer({
+                          is: 'parties-list',
+
+                          properties: {
+                            parties: {
+                              type: Array,
+                              value: function(){
+                                  return [
+                                          {'name': 'Dubstep-Free Zone',
+                                           'description': 'Can we please just for an evening not listen to dubstep.',
+                                           'location': 'Palo Alto'
+                                          },
+                                          {'name': 'All dubstep all the time',
+                                           'description': 'Get it on!',
+                                           'location': 'Palo Alto'
+                                          },
+                                          {'name': 'Savage lounging',
+                                           'description': 'Leisure suit required. And only fiercest manners.',
+                                           'location': 'San Francisco'
+                                          }
+                                ];
+                              },
+                              notify: true
+                            }
+                          }
+                        });
+                      })();
+                </script\>
+            </dom-module>
+                            `,
+                       
+                        notify: true
+                    },
+                    partiesListHtml2: {
+                        type: String,
+                        value: `
+        <link rel="import" href="../../bower_components/polymer/polymer.html">
+        <link rel="import" href="../../bower_components/polyteor-element/polyteor-collection.html">
+        <dom-module id="parties-list">
+            <template>
+                <style>
+                    :host {
+                        display: block;
+                    }
+                </style>
+                 <polyteor-collection collection="parties" data="{{parties}}" autoupdate></polyteor-collection>
+                <div>
+                    <ul>
+                        <template is="dom-repeat" items="[[parties]]" as="party">
+                            <li>
+                                {{party.name}}
+                                <p>{{party.description}}</p>
+                                <p>{{party.location}}</p>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+            <script>
+                (function () {
+                        'use strict';
+
+                        Polymer({
+                                is: 'parties-list',
+
+                                properties: {
+                                    parties: Array,
+                            }
+                        });
+                })();
+            </script\>
+        </dom-module>
+                            `,
+                       
+                        notify: true
+                    }                    
+                    ,
+                     partiesListImport: {
+                            type: String,
+                            notify: true,
+                         value: `
+    <link rel="import" href="parties-list/parties-list.html">
+                                `
+                        },
+                    indexHtml: {
+                        type: String,
+                        notify: true,
+                        value: `
+    <body>
+        <template is="dom-bind">
+
+            <parties-list></parties-list>
+
+        </template>
+    </body\>
+
+`
+                    },
+                polyteorCollectionImport:{
+                    type: String,
+                    notify: true,
+                        value: `
+    <link rel="import" href="../../bower_components/polyteor-element/polyteor-collection.html">
+
+`
+                }
+                },
+                ready: function () {
+
+                }
+            });
+        })();
+    </script>
+    </dom-module>

@@ -1,0 +1,72 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+
+<dom-module id='code-element'>
+    <template>
+        <style include="shared-styles">
+            pre {
+                padding: 0;
+                margin: 0;
+            }
+        </style>
+        <div id="content" class="hidden"></div>
+        <pre id="output"></pre>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'code-element',
+            properties: {
+                code: {
+                    type: String,
+                    observer: '_render',
+                    value:null
+                },
+                lang: {
+                    type: String
+                }
+            },
+            ready: function () {
+                if (!this.code) {
+                    // Use the Markdown from the first `<script>` descendant whose MIME type starts with
+                    // "text/markdown". Script elements beyond the first are ignored.
+                    var codeEl = Polymer.dom(this).querySelector('[type^="text/code"]');
+                    if (codeEl != null) {
+                        this.code = codeEl.textContent.replace(/{ {/gi,'{{')
+                            .replace(/} }/gi, '}}')
+                            .replace(/\[ \[/gi,'[[')
+                            .replace(/\] \]/gi, ']]')
+                            .replace(/imports/g,'import');
+//                        console.log(this.code);
+                    }
+                }
+            },
+            _unindent: function (text) {
+                if (!text) return text;
+                var lines = text.replace(/\t/g, '  ').split('\n');
+                var indent = lines.reduce(function (prev, line) {
+                    if (/^\s*$/.test(line)) return prev; // Completely ignore blank lines.
+                    var lineIndent = line.match(/^(\s*)/)[0].length;
+                    if (prev === null) return lineIndent;
+                    return lineIndent < prev ? lineIndent : prev;
+                }, null);
+                return lines.map(function (l) {
+                    return l.substr(indent);
+                }).join('\n');
+            },
+            attached: function () {
+                this._render();
+            },
+            _render: function () {
+                this.$.output.innerHTML = this.highlight(this.code, this.lang);
+            },
+            highlight: function (code, lang) {
+                return this.fire('syntax-highlight', {
+                    code: code,
+                    lang: lang
+                }).detail.code;
+            }
+        });
+    </script>
+
+</dom-module>

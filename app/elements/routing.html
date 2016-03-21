@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <script src="../bower_components/page/page.js"></script>
 <script>
-  window.addEventListener('WebComponentsReady', function() {
+    window.addEventListener('WebComponentsReady', function() {
 
     // We use Page.js for routing. This is a Micro
     // client-side router inspired by the Express router
@@ -45,68 +45,85 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.route = 'about';
     });
     
+     
+
     page('/tuto/intro', function() {
        
       app.route = 'tuto-intro';
       app.$.tutoMenu.open();
-    //   console.log('Going to tuto')
+       console.log('Going to tuto')
     });
     
      page('/tuto/bootstrap', function() {
       app.route = 'tuto-bootstrap';
+        app.$.tutoMenu.open();
     });
     
     page('/tuto/databind', function() {
       app.route = 'tuto-databind';
+        app.$.tutoMenu.open();
     });
     page('/tuto/forms', function() {
       app.route = 'tuto-forms';
+        app.$.tutoMenu.open();
     });
     page('/tuto/routing', function() {
       app.route = 'tuto-routing';
+        app.$.tutoMenu.open();
     });
     page('/tuto/auth', function() {
       app.route = 'tuto-auth';
+        app.$.tutoMenu.open();
     });
     
     page('/tuto/pub-sub', function() {
       app.route = 'tuto-pub-sub';
+        app.$.tutoMenu.open();
     });
 
     page('/tuto/ssp', function() {
       app.route = 'tuto-ssp';
+        app.$.tutoMenu.open();
     });
     
     page('/tuto/methods', function() {
       app.route = 'tuto-methods';
+        app.$.tutoMenu.open();
     });
 
     page('/tuto/tplif', function() {
       app.route = 'tuto-tplif';
+        app.$.tutoMenu.open();
     });
 
     page('/tuto/maps', function() {
       app.route = 'tuto-maps';
+        app.$.tutoMenu.open();
     });
 
     page('/tuto/youtube', function() {
       app.route = 'tuto-youtube';
+        app.$.tutoMenu.open();
     });
 
     page('/tuto/el', function() {
       app.route = 'tuto-el';
+        app.$.tutoMenu.open();
     });
     
     page('/tuto/files', function() {
       app.route = 'tuto-files';
+        app.$.tutoMenu.open();
     });
     
     page('/tuto/deploy', function() {
       app.route = 'tuto-deploy';
+        app.$.tutoMenu.open();
     });
     
     page('/comming-soon', function() {
       app.route = 'comming-soon';
+        app.$.tutoMenu.open();
     });
 
 
@@ -128,4 +145,5 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
 
   });
+
 </script>

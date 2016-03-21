@@ -71,7 +71,7 @@ var optimizeHtmlTask = function(src, dest) {
   var assets = $.useref.assets({
     searchPath: ['.tmp', 'app']
   });
-
+// console.log('Assets', assets.length);
   return gulp.src(src)
     .pipe(assets)
     // Concatenate and minify JavaScript
