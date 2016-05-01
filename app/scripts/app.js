@@ -34,6 +34,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
     console.log('Our app is ready to rock!');
+    app.route="home"
   });
 
   // See https://github.com/Polymer/polymer/issues/1381
@@ -71,15 +72,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   // Scroll page to top and expand header
   app.scrollPageToTop = function() {
-    app.$.headerPanelMain.scrollToTop(true);
+    // app.$.headerPanelMain.scrollToTop(true);
   };
 
   app.closeDrawer = function() {
-    app.$.paperDrawerPanel.closeDrawer();
+    // app.$.paperDrawerPanel.closeDrawer();
   };
-  
+
   app.next = function(e){
-      
+
   }
 
 })(document);

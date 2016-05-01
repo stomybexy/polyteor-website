@@ -38,27 +38,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
 
     page('/', function() {
-      app.route = 'about';
+      app.route = 'home';
     });
 
     page(app.baseUrl, function() {
-      app.route = 'about';
+      app.route = 'home';
+      // console.log('routing to home');
     });
-    
-     
+
+    page('/todo', function() {
+
+      app.route = 'todo'
+       console.log('Going to tuto')
+    });
 
     page('/tuto/intro', function() {
-       
+
       app.route = 'tuto-intro';
       app.$.tutoMenu.open();
        console.log('Going to tuto')
     });
-    
+
      page('/tuto/bootstrap', function() {
       app.route = 'tuto-bootstrap';
         app.$.tutoMenu.open();
     });
-    
+
     page('/tuto/databind', function() {
       app.route = 'tuto-databind';
         app.$.tutoMenu.open();
@@ -75,7 +80,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.route = 'tuto-auth';
         app.$.tutoMenu.open();
     });
-    
+
     page('/tuto/pub-sub', function() {
       app.route = 'tuto-pub-sub';
         app.$.tutoMenu.open();
@@ -85,7 +90,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.route = 'tuto-ssp';
         app.$.tutoMenu.open();
     });
-    
+
     page('/tuto/methods', function() {
       app.route = 'tuto-methods';
         app.$.tutoMenu.open();
@@ -110,38 +115,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.route = 'tuto-el';
         app.$.tutoMenu.open();
     });
-    
+
     page('/tuto/files', function() {
       app.route = 'tuto-files';
         app.$.tutoMenu.open();
     });
-    
+
     page('/tuto/deploy', function() {
       app.route = 'tuto-deploy';
         app.$.tutoMenu.open();
     });
-    
+
     page('/comming-soon', function() {
       app.route = 'comming-soon';
         app.$.tutoMenu.open();
     });
 
 
-    page('*', function() {
-      
-      page.redirect(app.baseUrl + 'comming-soon');
-    });
-
-    // 404
-    page('*', function() {
-      app.$.toast.text = 'Can\'t find: ' + window.location.href  + '. Redirected you to Home Page';
-      app.$.toast.show();
-      page.redirect(app.baseUrl);
-    });
+    // page('*', function() {
+    //
+    //   page.redirect(app.baseUrl + 'comming-soon');
+    // });
+    //
+    // // 404
+    // page('*', function() {
+    //   app.$.toast.text = 'Can\'t find: ' + window.location.href  + '. Redirected you to Home Page';
+    //   app.$.toast.show();
+    //   page.redirect(app.baseUrl);
+    // });
 
     // add #! before urls
     page({
-      hashbang: true
+      hashbang: false
     });
 
   });
