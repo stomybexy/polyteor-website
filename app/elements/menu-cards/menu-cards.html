@@ -22,11 +22,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style include="layout-style">
     :host {
         display: block;
+
       }
 
       .item {
         margin: 10px;
-        @apply(--layout-flex);
+        /*@apply(--layout-flex);*/
         /*@apply(--layout-self-center);*/
         /*@apply(--layout-self-justified);*/
       }
@@ -34,33 +35,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-vertical);
         @apply(--layout-center);
       }
+
       .inner-container{
         @apply(--layout-horizontal);
-        /*@apply(--layout-wrap);*/
-        @apply(--layout-center-justified	);
-        max-width: 1200px;
+        @apply(--layout-wrap);
+
+        /*@apply(--layout-start-justified	);*/
+        max-width: 1000px;
       }
 
-      /*@media (max-width: 800px) {
+      @media (max-width: 700px) {
         .item {
-          margin-left:  0px;
-          margin-right: 0px;
+          /*margin-left:  0px;
+          margin-right: 0px;*/
           @apply(--layout-flex);
         }
-        .inner-container{
-          @apply(--layout-horizontal);
+        /*.inner-container{
+          @apply(--layout-vertical);
           @apply(--layout-wrap);
           @apply(--layout-justified);
 
-        }
-      }*/
+        }*/
+      }
     }
     </style>
     <div class="container">
-    <div class="inner-container">
+      <div class="inner-container">
       <template is="dom-repeat" items="[[menuItems]]">
         <menu-card-item class="item" title="[[item.title]]" description="[[item.description]]" duration="[[item.duration]]" updated-at="[[item.updatedAt]]" url="[[item.url]]"></menu-card-item>
       </template>
+      <!-- <span class="flex item"></span> -->
     </div>
   </div>
 
@@ -93,6 +97,49 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 duration: 50,
                 updatedAt: new Date(),
                 url: 'todo'
+              }, {
+                title: 'Socially',
+                description: 'A party organisation app.',
+                duration: 50,
+                updatedAt: new Date()
+              }, {
+                title: 'Todo',
+                description: 'A simple todo app.',
+                duration: 50,
+                updatedAt: new Date(),
+                url: 'todo'
+              }, {
+                title: 'Socially',
+                description: 'A party organisation app.',
+                duration: 50,
+                updatedAt: new Date()
+              }, {
+                title: 'Todo',
+                description: 'A simple todo app.',
+                duration: 50,
+                updatedAt: new Date(),
+                url: 'todo'
+              }, {
+                title: 'Socially',
+                description: 'A party organisation app.',
+                duration: 50,
+                updatedAt: new Date()
+              }, {
+                title: 'Todo',
+                description: 'A simple todo app.',
+                duration: 50,
+                updatedAt: new Date(),
+                url: 'todo'
+              }, {
+                title: 'Socially',
+                description: 'A party organisation app.',
+                duration: 50,
+                updatedAt: new Date()
+              }, {
+                title: 'Socially',
+                description: 'A party organisation app.',
+                duration: 50,
+                updatedAt: new Date()
               }]
             },
             notify: true

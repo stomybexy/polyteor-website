@@ -23,6 +23,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style include="shared-styles">
       :host {
         display: block;
+        @apply(--layout-horizontal);
+
       }
 
       .card-content {
@@ -36,8 +38,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       paper-card {
-        min-width: 350px;
+        min-width: 300px;
         /*max-width: 350px;*/
+        @apply(--layout-flex);
+
       }
 
       .description {
