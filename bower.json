@@ -11,7 +11,8 @@
     "polymer-code-mirror": "^0.2.0",
     "ace-component": "^0.5.2",
     "codelab-components": "googlecodelabs/codelab-components#^1.0.2",
-    "iron-grid": "The5heepDev/iron-grid"
+    "iron-grid": "The5heepDev/iron-grid",
+    "carbon-route": "PolymerElements/carbon-route#^0.8.4"
   },
   "devDependencies": {},
   "ignore": [],

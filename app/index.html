@@ -51,6 +51,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <!-- endbuild -->
 
+  <script>
+    /* this script must run before Polymer is imported */
+    window.Polymer = {
+      dom: 'shadow',
+      lazyRegister: true
+    };
+  </script>
+
   <!-- Because this project uses vulcanize this should be your only html import
        in this file. All other imports should go in elements.html -->
   <link rel="import" href="elements/elements.html">
@@ -64,86 +72,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
 
-    <iron-pages attr-for-selected="data-route" selected="{{route}}">
-      <div data-route="home">
-        <home-el></home-el>
+    <carbon-location route="{{route}}"></carbon-location>
+
+    <carbon-route route="{{route}}" pattern="/" data="{{data}}" active="{{homeActive}}"></carbon-route>
+
+    <carbon-route route="{{route}}" pattern="/:selected" data="{{data}}"></carbon-route>
+
+
+
+    <div hidden$="{{!homeActive}}">
+      <home-el></home-el>
+    </div>
+
+    <iron-pages attr-for-selected="data-route" selected="{{data.selected}}" hidden$="{{homeActive}}">
+
+      <div data-route="todo">
+        <todo-lab></todo-lab>
       </div>
-      <section data-route="todo">
-        <div>
-          <google-codelab title="Awesome codelab" feedback-link="http://example.org" last-updated="2015-01-28">
-            <google-codelab-step label="One" step="1" duration="10">
 
-              <p><img src="img-1.png" style="max-width: 624px"></p>
-              <p>In this codelab, You'll create a fully working Google Maps app using elements in Polymer's <a href="https://elements.polymer-project.org/browse?package=google-web-components">Google Web Components</a>&#160;collection. The app will be responsive,
-                include driving directions, and transit a mode. Along the way, you'll also learn about Polymer's data-binding features and <a href="https://elements.polymer-project.org/browse?package=iron-elements">iron element</a>&#160;set.</p>
-              <h3 class="checklist">What you'll learn</h3>
-              <ul class="checklist">
-                <li>How to start a new Polymer-based project using Chrome Dev Editor</li>
-                <li>How to use elements in Polymer's iron, paper, and Google Web Component sets.</li>
-                <li>How to use Polymer's data binding features to reduce boilerplate code.</li>
-              </ul>
-              <h3>What you'll need</h3>
-              <ul>
-                <li>Basic understanding of HTML, CSS, and web development.</li>
-                <li>Install <a href="https://chrome.google.com/webstore/detail/chrome-dev-editor-develop/pnoffddplpippgcfjdhbmhkofpnaalpg?hl=en">Chrome Dev Editor</a>&#160;or use your own editor of choice.</li>
-              </ul>
-              <google-codelab-survey survey-id="test-survey-123">
-                <h4>How would rate your experience with Polymer?</h4>
-                <paper-radio-group>
-                  <paper-radio-button>Novice</paper-radio-button>
-                  <paper-radio-button>Intermediate</paper-radio-button>
-                  <paper-radio-button>Advanced</paper-radio-button>
-                </paper-radio-group>
-              </google-codelab-survey>
-
-            </google-codelab-step>
-            <google-codelab-step label="Two" step="2" duration="15">
-              <marked-element>
-                  <div class="markdown-html"></div>
-                  <script type="text/markdown">
-                      ### What you will learn
-
-                      this is paragraph [link](http://localhost)
-
-                      ```sh
-                      meteor mongo
-                      ```
-
-                      ```js
-                      {
-                        key: 'droop'
-                      }
-                      ```
-
-                      ```html
-                      <link rel="import" href="http://localhos" />
-
-                      ```
-
-                      <div class="instructions">
-                        <p>This is an instruction <a href="http://localhost">Go here</a>
-                      </div>
-
-                      ### List
-
-                      * An element is the center
-                      * This is true for all thing
-                      * The theory of all is the ``` theory ``` of one
-
-                      <h3 class="checklist">What you'll learn</h3>
-                      <ul class="checklist">
-                        <li>How to start a new Polymer-based project using Chrome Dev Editor</li>
-                        <li>How to use elements in Polymer's iron, paper, and Google Web Component sets.</li>
-                        <li>How to use Polymer's data binding features to reduce boilerplate code.</li>
-                      </ul>
-
-                  </script>
-              </marked-element>
-              <pre><code> test</code></pre>
-            </google-codelab-step>
-          </google-codelab>
-        </div>
-      </section>
+      <div data-route="socially">
+        <socially-lab></socially-lab>
+      </div>
 
     </iron-pages>
 

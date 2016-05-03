@@ -30,7 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .card-content {
         padding: 0px;
         width: 100%;
-        @apply(--layout-vertical);
+        /*@apply(--layout-vertical);*/
       }
 
       .space {
@@ -69,8 +69,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       paper-toolbar{
-        background: var(--google-blue-500);
-        text-align: left;
+        background: var(--paper-light-blue-600);
+        /*text-align: left;*/
 
       }
       .card-actions a:link,
@@ -82,14 +82,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <paper-card>
-      <div class="card-content">
-        <paper-toolbar>
-          <div class="menu-title">{{title}}</div>
-          <span class="space"></span>
-          <iron-icon icon="device:access-time"></iron-icon>
-          <span class="time">{{_length}}</span>
+      <paper-toolbar>
+        <div class="menu-title">{{title}}</div>
+        <span class="space"></span>
+        <iron-icon icon="schedule"></iron-icon>
+        <span class="time">{{_length}}</span>
 
-        </paper-toolbar>
+      </paper-toolbar>
+
+      <div class="card-content">
 
         <div class="description">
 
@@ -98,7 +99,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
       </div>
       <div class="card-actions">
-        <a href="/{{url}}">
+        <a href="/{{url}}#0">
             <paper-button>start</paper-button>
         </a>
         <!-- <paper-button>start</paper-button> -->
