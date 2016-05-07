@@ -1,0 +1,315 @@
+
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/codelab-components/google-codelab-elements.html">
+
+
+
+
+<dom-module id="todo-lab-step-3">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            </style>
+
+            <google-codelab-step id="step" label="Meteor collections" step="3" duration="10" >
+              <aside class="special">
+                <p>Collections are Meteor's way of storing persistent data. The special thing about collections in Meteor is
+                that they can be accessed from both the server and the client,
+                making it easy to write view logic without having to write a lot of server code. They also update themselves automatically,
+                so a view component backed by a collection will automatically display the most up-to-date data.
+              </p>
+              <p>Read more that <a href="http://guide.meteor.com/collections.html">here</a>.
+              </aside>
+              <p>Defining a collection on server sets up a MongoDB collection. On the client, that creates a cache connected to the server collection</p>
+              <p>We will learn later how to filter data sent to client, but for now, our entire database is present on the client</p>
+              <p>To create the collection, we define a new tasks module (<code>imports/api/tasks.js</code> file)that creates a Mongo collection and exports it:</p>
+              <pre>
+      <code>
+      import { Mongo } from 'meteor/mongo';
+
+      export const Tasks = new Mongo.Collection('tasks');
+              </code>
+            </pre>
+            <code>imports/api</code> is a sensible place to store the API of the application. You can learn more about that <a href="http://guide.meteor.com/structure.html">here</a>
+            <p>We need to import our module on the server like this (in <code>server/main.js</code> file): </p>
+            <pre>
+      <code>
+      import '../imports/api/tasks.js';
+              </code>
+            </pre>
+            <p>Let's import our module on the client to define the task collection. In <code>client/main.js</code> file, put this:</p>
+            <pre>
+      <code>
+      import '../imports/api/tasks.js';
+              </code>
+            </pre>
+            <p>To get data from this collection instead of static array inside <code>todos-list</code> element, we'll use <code>polyteor-collection</code> element,
+              a bower_components installed by <code>jonatan:polyteor</code> package.</p>
+              <p>Update <code>client/todos-list/todos-list.vul.html</code> to obtain this:</p>
+              <marked-element markdown="[[todoListHtml2]]">
+                  <div class="markdown-html"></div>
+              </marked-element>
+              <p>After these changes, you will notice that the tasks have disppeared. This is because our newly created collection is empty.
+                We need to add some tasks. In a new terminal, from your project folder, type this: </p>
+                <pre><code>meteor mongo</code></pre>
+                <p>This opens a console into your app's local development database. Into the prompt, type:</P>
+                  <pre><code>db.tasks.insert({ text: "My awesome task!", createdAt: new Date() });</code></pre>
+                  <p>The UI in the browser automatically update and display the newly added task.
+                    Without writing any code for that, our server-side database is connected to the front-end.
+                  </p>
+                  <aside class="special">
+                    <em>polyteor-collection</em>
+                  connect <em>Polymer databinding</em> to <em>Meteor reactivity</em>.
+                </aside>
+                <p>Let's add some css style. Create <code>client/main.css</code> file with the following content: </p>
+                <pre>
+<code>
+  /* CSS declarations go here */
+  body {
+    font-family: sans-serif;
+    background-color: #315481;
+    background-image: linear-gradient(to bottom, #315481, #918e82 100%);
+    background-attachment: fixed;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    padding: 0;
+    margin: 0;
+
+    font-size: 14px;
+  }
+</code></pre>
+                   <p>Update <code>client/todos-list/todos-list.vul.html</code> to obtain this: </p>
+
+                <marked-element markdown="[[todoListHtml3]]">
+                    <div class="markdown-html"></div>
+                </marked-element>
+                <p>In the next step, we will use form to add tasks.</p>
+
+            </google-codelab-step>
+    </template>
+    <script>
+        (function() {
+    'use strict';
+
+    Polymer({
+      is: 'todo-lab-step-3',
+      properties: {
+        todoListHtml2:{
+          type: String,
+          value:`
+          <link rel="import" href="../bower_components/polymer/polymer.html">
+          <link rel="import" href="../bower_components/polyteor-element/polyteor-collection.html">
+
+          <dom-module id="todos-list">
+              <template>
+                  <style>
+                      :host {
+                          display: block;
+                      }
+                  </style>
+                  <polyteor-collection collection="tasks" data="{{todos}}"></polyteor-collection>
+
+                  <header>
+                      <h1>Todo List</h1>
+                  </header>
+
+                  <ul>
+                    <template is="dom-repeat" items="[[todos]]" as="todo">
+                      <li>
+                          {{todo.text}}
+                      </li>
+                    </template>
+                  </ul>
+              </template>
+              <script>
+                  (function() {
+                      'use strict';
+
+                      Polymer({
+                          is: 'todos-list',
+
+                          properties: {
+                            properties: {
+                                todos: Array
+
+                            }
+
+                          }
+
+                      });
+                  })();
+              </script\>
+          </dom-module>
+
+          `
+        },
+        todoListHtml3: {
+          type: String,
+          value: `
+          <link rel="import" href="../bower_components/polymer/polymer.html">
+          <link rel="import" href="../bower_components/polyteor-element/polyteor-collection.html">
+
+
+          <dom-module id="todos-list">
+              <template>
+                  <style>
+                      :host {
+                          display: block;
+                      }
+
+                      .container {
+                          max-width: 600px;
+                          margin: 0 auto;
+                          min-height: 100%;
+                          background: white;
+                      }
+
+                      header {
+                          background: #d2edf4;
+                          background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
+                          padding: 20px 15px 15px 15px;
+                          position: relative;
+                      }
+
+                      #login-buttons {
+                          display: block;
+                      }
+
+                      h1 {
+                          font-size: 1.5em;
+                          margin: 0;
+                          margin-bottom: 10px;
+                          display: inline-block;
+                          margin-right: 1em;
+                      }
+
+                      form {
+                          margin-top: 10px;
+                          margin-bottom: -10px;
+                          position: relative;
+                      }
+
+                      .new-task input {
+                          box-sizing: border-box;
+                          padding: 10px 0;
+                          background: transparent;
+                          border: none;
+                          width: 100%;
+                          padding-right: 80px;
+                          font-size: 1em;
+                      }
+
+                      .new-task input:focus {
+                          outline: 0;
+                      }
+
+                      ul {
+                          margin: 0;
+                          padding: 0;
+                          background: white;
+                      }
+
+                      .delete {
+                          float: right;
+                          font-weight: bold;
+                          background: none;
+                          font-size: 1em;
+                          border: none;
+                          position: relative;
+                      }
+
+                      li {
+                          position: relative;
+                          list-style: none;
+                          padding: 15px;
+                          border-bottom: #eee solid 1px;
+                      }
+
+                      li .text {
+                          margin-left: 10px;
+                      }
+
+                      li.checked {
+                          color: #888;
+                      }
+
+                      li.checked .text {
+                          text-decoration: line-through;
+                      }
+
+                      li.private {
+                          background: #eee;
+                          border-color: #ddd;
+                      }
+
+                      header .hide-completed {
+                          float: right;
+                      }
+
+                      .toggle-private {
+                          margin-left: 5px;
+                      }
+
+                      @media (max-width: 600px) {
+                          li {
+                              padding: 12px 15px;
+                          }
+                          .search {
+                              width: 150px;
+                              clear: both;
+                          }
+                          .new-task input {
+                              padding-bottom: 5px;
+                          }
+                      }
+                  </style>
+                  <polyteor-collection collection="tasks" data="{{todos}}"></polyteor-collection>
+                  <div class="container">
+                      <header>
+                          <h1>Todo List</h1>
+                      </header>
+
+
+                      <ul>
+                          <template is="dom-repeat" items="[[todos]]" as="todo">
+                              <li>
+                                  {{todo.text}}
+                              </li>
+                          </template>
+                      </ul>
+                  </div>
+              </template>
+              <script>
+                  (function() {
+                      'use strict';
+
+                      Polymer({
+                          is: 'todos-list',
+
+                          properties: {
+                              todos: Array
+
+                          }
+
+                      });
+                  })();
+              </script\>
+          </dom-module>
+          `
+        }
+      },
+      getStep: function(){
+        return this.$.step;
+      }
+    });
+  })();
+    </script>
+</dom-module>

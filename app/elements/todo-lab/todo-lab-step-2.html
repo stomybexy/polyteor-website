@@ -1,0 +1,131 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/codelab-components/google-codelab-elements.html">
+
+
+
+
+<dom-module id="todo-lab-step-2">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            </style>
+
+            <google-codelab-step id="step" label="Defining views with elements" step="2" duration="15">
+              <p>To use Polymer in our app, we first need to remove the default UI package of Meteor, called Blaze.
+                We remove it by running:</p>
+              <pre><code>meteor remove blaze-html-templates</code></pre>
+              <p>We need to add <code>jonatan:polyteor</code> package. This package install some <em>bower components</em>. Create a <code>.bowerrc</code>
+                in the root folder of the app with the following content: </p>
+              <pre><code>
+      {
+        "directory": ".polyteor/bower_components"
+      }
+              </code></pre>
+              <p>This is to prevent <em>Meteor</em> from watching <em>bower components</em> to avoid slower <em>reload</em> during development.</p>
+              <p>Now let's install the package</p>
+              <pre><code>meteor add jonatan:polyteor</code></pre>
+              <p>Remove the files inside <code>client</code> folder and create the <em>Polymer element</em> <code>client/todos-list/todos-list.vul.html</code> file
+              with the following content:</p>
+              <marked-element markdown="[[todoListHtml]]">
+                  <div class="markdown-html"></div>
+              </marked-element>
+              <p>Then create an <code>index.html</code> file inside <em>client</em> folder with the following content:</p>
+              <pre><code>
+                &lt;head&gt;
+                    &lt;link rel=&quot;import&quot; href=&quot;/bower_components/webcomponentsjs/webcomponents-lite.min.js&quot;&gt;
+                    &lt;link rel=&quot;import&quot; href=&quot;todos-list/todos-list.vul.html&quot;&gt;
+                    &lt;title&gt;Todo List&lt;/title&gt;
+                &lt;/head&gt;
+
+                &lt;body unresolved=&quot;&quot;&gt;
+
+                    &lt;template is=&quot;dom-bind&quot;&gt;
+
+                        &lt;todos-list&gt;&lt;/todos-list&gt;
+
+                    &lt;/template&gt;
+
+                &lt;/body&gt;
+
+              </code></pre>
+              <p>Now you should see a list of task displayed in the browser.</p>
+              <aside class="special">
+                <code>jonatan:polyteor</code> package handles <code>vul.html</code> and <code>pt.html</code> files.
+                Those are polymer elements and are managed by <em>HTML import</em>. The other <code>.html</code> files are
+                concatenated by Meteor <code>static-html</code> build plugin. Everything in <code>head</code> tag is added
+                to the <code>head</code> section sent to the client, the same for <code>body</code>.
+              </aside>
+              <p>We've defined a Polymer element that displays its own data. Next we will connect it to Meteor collection with <code>polyteor-collection</code>. </p>
+            </google-codelab-step>
+
+    </template>
+    <script>
+        (function() {
+    'use strict';
+
+    Polymer({
+      is: 'todo-lab-step-2',
+      properties: {
+        todoListHtml: {
+          type: String,
+          value:`
+          <link rel="import" href="../bower_components/polymer/polymer.html">
+          <dom-module id="todos-list">
+              <template>
+                  <style>
+                      :host {
+                          display: block;
+                      }
+                  </style>
+                  <header>
+                      <h1>Todo List</h1>
+                  </header>
+
+                  <ul>
+                    <template is="dom-repeat" items="[[todos]]" as="todo">
+                      <li>
+                          {{todo.text}}
+                      </li>
+                    </template>
+                  </ul>
+              </template>
+              <script>
+                  (function() {
+                      'use strict';
+
+                      Polymer({
+                          is: 'todos-list',
+
+                          properties: {
+                              todos: {
+                                  type: Array,
+                                  value: () => [{
+                                      text: 'This is task 1'
+                                  }, {
+                                      text: 'This is task 2'
+                                  }, {
+                                      text: 'This is task 3'
+                                  }]
+                              }
+
+                          }
+
+                      });
+                  })();
+              </script\>
+          </dom-module>
+
+          `
+
+        }
+      },
+      getStep: function(){
+        return this.$.step;
+      }
+    });
+  })();
+    </script>
+</dom-module>

@@ -1,15 +1,16 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+
 <link rel="import" href="../../bower_components/codelab-components/google-codelab-elements.html">
+<link rel="import" href="todo-lab-step-1.html">
+<link rel="import" href="todo-lab-step-2.html">
+<link rel="import" href="todo-lab-step-3.html">
+<link rel="import" href="todo-lab-step-4.html">
+
+
+
+
 
 <dom-module id="todo-lab">
   <template>
@@ -18,118 +19,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-    <google-codelab title="Simple todo app" last-updated="2016-05-04">
-      <!-- <bootstrap-step label="One" step="1" duration="10"><bootstrap-step> -->
-      <google-codelab-step label="Creating an app" step="1" duration="5">
 
-        <p>In this codelab, we are going to create a simple app to manage a 'to do' list and collaborate with others on those tasks.
-          This is the <em>Polymer</em> version of <a href="https://www.meteor.com/tutorials/blaze/creating-an-app">Meteor todo tutorial</a>
-         </p>
-         <p>To create the app, open your terminal and type:</p>
+    <google-codelab id="codeLab" title="Simple todo app" last-updated="2016-05-07" >
 
-         <pre><code>meteor create simple-todos</code></pre>
+    </google-code-lab>
 
-         This will create a new folder called <code>simple-todos</code> with all of the files that a Meteor app needs:
-         <pre><code>
-client/main.js        # a JavaScript entry point loaded on the client
-client/main.html      # an HTML file that defines view templates
-client/main.css       # a CSS file to define your app's styles
-server/main.js        # a JavaScript entry point loaded on the server
-package.json          # a control file for installing NPM packages
-.meteor               # internal Meteor files
-.gitignore            # a control file for git
-         </code></pre>
-
-         <p>To run the newly created app:</p>
-
-         <pre><code>
-cd simple-todos
-meteor npm install
-meteor
-        </code></pre>
-        <p>Open your web browser and go to <a href="http://localhost:3000" target="_blank">http://localhost:3000</a> to see the app running.</p>
-        <p>You can play around with this default app for a bit before we continue. For example,
-          try editing the text in <code>&lt;h1&gt;</code>
-          inside <code>client/main.html</code>
-          using your favorite text editor. When you save the file, the page in your browser will automatically update with the new content.
-          This is called "hot code push".</p>
-
-          <!-- <aside class="special"> -->
-          <h3>ES2015 JavaScript features</h3>
-          <p>If you haven't tried next-generation JavaScript features yet, some of the syntax in the intial app code,
-            and throughout this tutorial, might look weird. This is because Meteor ships by default with support for many features of ES2015,
-            the next version of JavaScript. Some of these features include:
-          </p>
-          <ul class="checklist">
-            <li>Arrow functions: <code>(arg) => {return result;}</code></li>
-            <li>Shorthand for methods: <code>render() { ... }</code></li>
-            <li><code>const</code> and <code>let</code> instead of <code>var</code></li>
-          </ul>
-        <!-- </aside> -->
-
-        <p>Read about the features that Meteor supports in the <a href="https://docs.meteor.com/#/full/ecmascript" target="_blank">ecmascript docs</a>.
-          For more information about ECMAScript 2015, see some of the articles below:
-        </p>
-        <ul>
-          <li><a href="http://git.io/es6features" target="_blank">Luke Hoban's "ES6 features"</a></li>
-          <li><a href="https://github.com/getify/You-Dont-Know-JS/tree/master/es6%20%26%20beyond" target="_blank">Kyle Simpson's "You don't know JS: ES6 and beyond"</a></li>
-          <li><a href="https://github.com/nzakas/understandinges6" target="_blank">Nikolas C. Zakas "Understanding ECMAScript 6"</a></li>
-        </ul>
-        <p>
-          Now that you have some experience editing the files in your Meteor app, let's start working on a simple todo list application.
-        </p>
-      </google-codelab-step>
-      <google-codelab-step label="Defining views with elements" step="2" duration="15">
-        <p>To use Polymer in our app, we first need to remove the default UI package of Meteor, called Blaze.
-          We remove it by running:</p>
-        <pre><code>meteor remove blaze-html-templates</code></pre>
-        <p>We need to add <code>jonatan:polyteor</code> package. This package install some <em>bower components</em>. Create a <code>.bowerrc</code>
-          in the root folder of the app with the following content: </p>
-        <pre><code>
-{
-  "directory": ".polyteor/bower_components"
-}
-        </code></pre>
-        <p>This is to prevent <em>Meteor</em> from watching <em>bower components</em> to avoid slower <em>reload</em> during development.</p>
-        <p>Now let's install the package</p>
-        <pre><code>meteor add jonatan:polyteor</code></pre>
-        <p>Remove the files inside <code>client</code> folder and create the <em>Polymer element</em> <code>client/todos-list/todos-list.vul.html</code> file
-        with the following content:</p>
-        <marked-element markdown="[[todoListHtml]]">
-            <div class="markdown-html"></div>
-        </marked-element>
-        <p>Then create an <code>index.html</code> file inside <em>client</em> folder with the following content:</p>
-        <pre><code>
-          &lt;head&gt;
-              &lt;link rel=&quot;import&quot; href=&quot;/bower_components/webcomponentsjs/webcomponents-lite.min.js&quot;&gt;
-              &lt;link rel=&quot;import&quot; href=&quot;todos-list/todos-list.vul.html&quot;&gt;
-              &lt;title&gt;Todo List&lt;/title&gt;
-          &lt;/head&gt;
-
-          &lt;body unresolved=&quot;&quot;&gt;
-
-              &lt;template is=&quot;dom-bind&quot;&gt;
-
-                  &lt;todos-list&gt;&lt;/todos-list&gt;
-
-              &lt;/template&gt;
-
-          &lt;/body&gt;
-
-        </code></pre>
-        <p>Now you should see a list of task displayed in the browser.</p>
-        <aside class="special">
-          <code>jonatan:polyteor</code> package handles <code>vul.html</code> and <code>pt.html</code> files.
-          Those are polymer elements and are managed by <em>HTML import</em>. The other <code>.html</code> files are
-          concatenated by Meteor <code>static-html</code> build plugin. Everything in <code>head</code> tag is added
-          to the <code>head</code> section sent to the client, the same for <code>body</code>.
-        </aside>
-        <p>We've defined a Polymer element that displays its own data. Next we will connect it to Meteor collection with <code>polyteor-collection</code>. </p>
-      </google-codelab-step>
-      <google-codelab-step label="Collections" step="3" >
-
-      </google-codelab-step>
-    </google-codelab>
 
   </template>
   <script>
@@ -138,60 +32,22 @@ meteor
 
       Polymer({
         is: 'todo-lab',
-        properties: {
-          todoListHtml: {
-            type: String,
-            value:`
-            <link rel="import" href="../bower_components/polymer/polymer.html">
-            <dom-module id="todos-list">
-                <template>
-                    <style>
-                        :host {
-                            display: block;
-                        }
-                    </style>
-                    <header>
-                        <h1>Todo List</h1>
-                    </header>
+        attached: function(){
+          var codeLab = this.$.codeLab;
 
-                    <ul>
-                      <template is="dom-repeat" items="[[todos]]" as="todo">
-                        <li>
-                            {{todo.text}}
-                        </li>
-                      </template>
-                    </ul>
-                </template>
-                <script>
-                    (function() {
-                        'use strict';
+          var step1 = document.createElement('todo-lab-step-1').getStep();
+          Polymer.dom(codeLab).appendChild(step1);
 
-                        Polymer({
-                            is: 'todos-list',
+          var step2 = document.createElement('todo-lab-step-2').getStep();
+          Polymer.dom(codeLab).appendChild(step2);
 
-                            properties: {
-                                todos: {
-                                    type: Array,
-                                    value: () => [{
-                                        text: 'This is task 1'
-                                    }, {
-                                        text: 'This is task 2'
-                                    }, {
-                                        text: 'This is task 3'
-                                    }]
-                                }
+          var step3 = document.createElement('todo-lab-step-3').getStep();
+          Polymer.dom(codeLab).appendChild(step3);
 
-                            }
+          var step4 = document.createElement('todo-lab-step-4').getStep();
+          Polymer.dom(codeLab).appendChild(step4);
 
-                        });
-                    })();
-                </script\>
-            </dom-module>
-
-            `
-
-          }
-
+          Polymer.dom(this.root).appendChild(codeLab);
         }
       });
     })();
