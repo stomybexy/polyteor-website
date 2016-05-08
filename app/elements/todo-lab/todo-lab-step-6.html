@@ -1,0 +1,146 @@
+
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/codelab-components/google-codelab-elements.html">
+
+
+
+
+<dom-module id="todo-lab-step-6">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            </style>
+
+            <google-codelab-step id="step" label="Filtering collections" step="6" duration="5" >
+              <aside>
+                In this step, we'll add a client-side data filtering feature to our app,
+                so that users can check a box to see only incomplete tasks.
+              </aside>
+              <p>Let's add a <code>checkbox</code> in the <code>todos-list</code> element: </p>
+              <marked-element markdown="[[todosListHtml]]">
+                  <div class="markdown-html"></div>
+              </marked-element>
+              <p>
+                This checkbox binds to <code>todos-list</code> element <code>hideCompleted</code> property.
+                Now, we need to update our tasks query each time hideCompleted changes.
+                Beside <code>hideCompleted</code> property, we add the computed property <code>selector</code>
+                to our <code>todos-list</code> element:
+              </p>
+<pre>
+<code>
+  todos: {
+      type: Array
+  },
+  sort: {
+      type: Object,
+      value: {
+          createdAt: -1
+      },
+      notify: true
+  },
+  hideCompleted: {
+      type: Boolean,
+      value: false,
+      notify: true
+  },
+  selector: {
+      type: Object,
+      computed: '_filterData(hideCompleted)'
+  }
+</code>
+              </pre>
+<pre>
+<code>
+  ...
+  setChecked(e) {
+      let todo = e.detail.todo;
+      console.log('Toggling todo', todo);
+      Tasks.update(todo._id, {
+          $set: {
+              checked: !todo.checked
+          }
+      })
+  },
+  _filterData(hide) {
+      if (hide) {
+          return {
+              checked: {
+                  $ne: true
+              }
+          };
+      }
+      return {};
+  }
+...
+</code>
+</pre>
+<p>Finally, we bind <code>selector</code> property of <code>polyteor-collection</code> to the
+  computed property <code>selector</code>:
+</p>
+
+<marked-element markdown="[[todosListHtml2]]">
+    <div class="markdown-html"></div>
+</marked-element>
+<aside class="special">
+  polyteor-collection connect Polymer binding to Meteor's reactivity. Every time its properties change, it update the
+  query that retrieve data from Meteor collection. If data change from Meteor side, the data property of polyteor-collection
+  is updated accordingly to reflect that change.
+</aside>
+<h3>One more feature: Showing a count of incomplete tasks</h3>
+<p>
+We'll add a new <code>polyteor-collection</code> instance to query incompleted tasks.
+Update the <code>client/todos-list/todos-list.vul.html</code> file:
+</p>
+<marked-element markdown="[[todosListHtml3]]">
+    <div class="markdown-html"></div>
+</marked-element>
+
+            </google-codelab-step>
+    </template>
+    <script>
+        (function() {
+    'use strict';
+
+    Polymer({
+      is: 'todo-lab-step-6',
+      properties: {
+        todosListHtml: {
+          type: String,
+          value:`
+          <header>
+              <h1>Todo List</h1>
+
+              <label class="hide-completed">
+                  <paper-checkbox checked="{{hideCompleted}}"></paper-checkbox>
+                  Hide Completed Tasks
+              </label>
+              ...
+          `
+        },
+        todosListHtml2: {
+          type: String,
+          value:`
+    <polyteor-collection collection="tasks" selector="[[selector]]" data="{{todos}}" sort="[[sort]]"></polyteor-collection>
+          `
+        },
+        todosListHtml3: {
+          type: String,
+          value:`
+    <polyteor-collection collection="tasks" selector="[[selector]]" data="{{todos}}" sort="[[sort]]"></polyteor-collection>
+    <polyteor-collection collection="tasks" selector='{"checked": {"$ne":true}}' data="{{incompletedTodos}}"></polyteor-collection>
+    <div class="container">
+        <header>
+            <h1>Todo List ({{incompletedTodos.length}})</h1>
+          `
+        }
+      },
+      getStep: function(){
+        return this.$.step;
+      }
+    });
+  })();
+    </script>
+</dom-module>
