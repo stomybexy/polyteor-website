@@ -1,0 +1,236 @@
+
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/codelab-components/google-codelab-elements.html">
+
+
+
+
+<dom-module id="todo-lab-step-5">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            </style>
+
+            <google-codelab-step id="step" label="Update and remove" step="5" duration="7" >
+              <p>Until now, we have only interacted with a collection by inserting documents.
+                Now, we will learn how to update and remove them.
+              </p>
+              <p>We will add a new element: <code>todo-item</code>. This element will use
+                Polymer <code>paper-icon-button, iron-icons, paper-checkbox</code> elements. Let's install them with bower: </p>
+
+                <pre>
+<code>
+bower install --save PolymerElements/iron-icons PolymerElements/paper-checkbox PolymerElements/paper-icon-button
+                  </code>
+                </pre>
+                <p>
+                Create the <code>client/todo-item/todo-item.pt.html</code> file
+              with the following content: </p>
+
+              <marked-element markdown="[[todoItemHtml]]">
+                  <div class="markdown-html"></div>
+              </marked-element>
+<p><code>todo-item</code> is the element that will display and hold a task. Now let's update <code>client/todos-list/todos-list.vul.html</code>
+  to use this new element: </p>
+<p>First, we import <code>todo-item</code> element: </p>
+<pre>
+<code>
+&lt;link rel=&quot;import&quot; href=&quot;../todo-item/todo-item.pt.html&quot;&gt;
+</code>
+</pre>
+<p>Then we use it inside our <code>todos-list</code> local dom: </p>
+  <marked-element markdown="[[todosListHtml]]">
+      <div class="markdown-html"></div>
+  </marked-element>
+<p>
+<code>todo-item</code> fires two events: <code>check-todo</code> and <code>update-todo</code> and we need to handle these events inside
+<code>todos-list</code> element. To do this, we add the two event handlers <code>setChecked</code> and <code>deleteTodo</code> that we can see
+in the new code added. Update <code>client/todos-list/todos-list.vul.html</code> with:
+</p>
+<pre>
+<code>
+  ready() {
+      this.$.form.addEventListener('iron-form-presubmit', (event) => {
+          event.preventDefault();
+          let val = this.$.form.serialize();
+          val.createdAt = new Date();
+          // val.checked = false;
+          Tasks.insert(val);
+
+          // Clear the form
+          this.$.text.value = "";
+
+      });
+  },
+  deleteTodo(e) {
+      Tasks.remove(e.detail.todo._id);
+  },
+  setChecked(e) {
+      let todo = e.detail.todo;
+      Tasks.update(todo._id, {
+          $set: {
+              checked: !todo.checked
+          }
+      })
+  }
+  ...
+</code>
+</pre>
+
+<h3>Classes</h3>
+<p>
+If you try checking off some tasks after adding all of the above code, you will see that checked off tasks have a line through them.
+Here we bind the checked state of a task to a class with <code>class$</code> and Polymer <em>computed binding</em> <code>_checkedClass</code>
+inside <code>client/todo-item/todo-item.pt.html</code> file:
+</p>
+
+<marked-element markdown="[[classBindingHtml]]">
+    <div class="markdown-html"></div>
+</marked-element>
+<pre>
+<code>
+  _checkedClass(checked) {
+      if (checked) {
+          return 'checked';
+      }
+      return '';
+  }
+</code>
+</pre>
+            </google-codelab-step>
+    </template>
+    <script>
+        (function() {
+    'use strict';
+
+    Polymer({
+      is: 'todo-lab-step-5',
+      properties: {
+        classBindingHtml: {
+          type: String,
+          value: `
+        <div class$="{{_checkedClass(todo.checked)}}">
+          `
+        },
+        todoItemHtml: {
+          type: String,
+          value:`
+          <link rel="import" href="../bower_components/polymer/polymer.html">
+          <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+          <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+          <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+          <dom-module id="todo-item">
+              <template>
+                  <style>
+                      :host {
+                          display: block;
+                      }
+
+                      .delete {
+                          float: right;
+                          font-weight: bold;
+                          background: none;
+                          font-size: 1em;
+                          border: none;
+                          position: relative;
+                      }
+
+                      .text {
+                          margin-left: 10px;
+                      }
+
+                      .checked {
+                          color: #888;
+                      }
+
+                      .checked .text {
+                          text-decoration: line-through;
+                      }
+
+                      .private {
+                          background: #eee;
+                          border-color: #ddd;
+                      }
+
+                      .toggle-private {
+                          margin-left: 5px;
+                      }
+                  </style>
+
+                  <div class$="{{_checkedClass(todo.checked)}}">
+                      <paper-icon-button class="delete" icon="delete" on-tap="_onDelete"></paper-icon-button>
+
+                      <paper-checkbox checked="[[todo.checked]]" on-tap="_setChecked" class="toggle-checked"></paper-checkbox>
+
+                      <span class="text">
+                      {{todo.text}}
+                  </span>
+                  </div>
+              </template>
+
+              <script>
+                  (function() {
+                      'use strict';
+
+                      Polymer({
+                          is: 'todo-item',
+
+                          properties: {
+                              todo: {
+                                  type: Object
+                              }
+
+                          },
+                          ready() {
+
+                          },
+                          _onDelete() {
+                              // console.log('firing delete-todo')
+                              this.fire('delete-todo', {
+                                  todo: this.todo
+                              });
+                          },
+                          _setChecked() {
+
+                              this.fire('check-todo', {
+                                  todo: this.todo
+                              })
+                          },
+                          _checkedClass(checked) {
+                              if (checked) {
+                                  return 'checked';
+                              }
+                              return '';
+                          }
+
+                      });
+                  })();
+              </script\>
+          </dom-module>
+
+          `
+        },
+        todosListHtml:{
+          type: String,
+          value: `
+          <ul>
+              <template is="dom-repeat" items="[[todos]]" as="todo">
+                  <li>
+                      <todo-item todo="[[todo]]" on-check-todo="setChecked" on-delete-todo="deleteTodo"></todo-item>
+                  </li>
+              </template>
+          </ul>
+          `
+        }
+      },
+      getStep: function(){
+        return this.$.step;
+      }
+    });
+  })();
+    </script>
+</dom-module>

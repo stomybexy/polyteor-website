@@ -7,6 +7,8 @@
 <link rel="import" href="todo-lab-step-2.html">
 <link rel="import" href="todo-lab-step-3.html">
 <link rel="import" href="todo-lab-step-4.html">
+<link rel="import" href="todo-lab-step-5.html">
+
 
 
 
@@ -46,6 +48,10 @@
 
           var step4 = document.createElement('todo-lab-step-4').getStep();
           Polymer.dom(codeLab).appendChild(step4);
+
+          var step5 = document.createElement('todo-lab-step-5').getStep();
+          Polymer.dom(codeLab).appendChild(step5);
+
 
           Polymer.dom(this.root).appendChild(codeLab);
         }
