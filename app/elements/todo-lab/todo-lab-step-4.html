@@ -11,10 +11,154 @@
             :host {
                 display: block;
             }
+            .special{
+              background: red
+            }
             </style>
 
             <google-codelab-step id="step" label="Forms and events" step="4" duration="">
+              <p>In this step, we'll use an input field in  form to add tasks. We'll use Polymer <code>iron-form</code> and <code>paper-input</code> elements.
+                Let's install them. We'll use bower to manage dependencies to Polymer elements. Create <code>bower.json</code> in the root of your application
+                with the following content: </p>
+                <pre>
+<code>
+  {
+    "name": "simple-todos",
+    "private": true,
+    "dependencies": {}
+  }
+</code>
+</pre>
+                 <p>In a new console at the root folder of your app, type: </p>
+                <pre>
+<code>bower install --save PolymerElements/iron-form PolymerElements/paper-input</code>
+                </pre>
+                <p>Now import these elements in <code>client/todos-list/todos-list-vul.html</code>: </p>
+                <pre>
+<code>
+&lt;link rel=&quot;import&quot; href=&quot;../bower_components/iron-form/iron-form.html&quot;&gt;
+&lt;link rel=&quot;import&quot; href=&quot;../bower_components/paper-input/paper-input.html&quot;&gt;
+</code></pre>
+                <p>Then add a form with an input field in <code>client/todos-list/todos-list.vul.html</code> file: </p>
+                <pre>
+<code>
 
+&lt;header&gt;
+    &lt;h1&gt;Todo List&lt;/h1&gt;
+&lt;/header&gt;
+
+&lt;form is=&quot;iron-form&quot; id=&quot;form&quot; class=&quot;new-task&quot;&gt;
+    &lt;paper-input  type=&quot;text&quot; name=&quot;text&quot; placeholder=&quot;Type to add new tasks&quot;&gt;&lt;/paper-input&gt;
+&lt;/form&gt;
+
+&lt;ul&gt;
+...
+            </div>
+</code></pre>
+<p>Now we need to handle the submit event of the form and add new task in <code>Tasks</code> collection.
+  To make Tasks collection available inside our elements, we need to assign it to a global variable on client. Replace the code
+  in <code>client/main.js</code> with this: </p>
+<pre>
+<code>
+  import {
+      Tasks as TasksColl
+  } from '../imports/api/tasks';
+
+  Tasks = TasksColl;
+</code>
+</pre>
+<p>In the <code>client/todos-list/todos-list.vul.html</code> file, add javascript code to handle form submission: </p>
+<pre>
+<code>
+  properties: {
+      todos: Array
+
+  },
+  ready() {
+        this.$.form.addEventListener('iron-form-presubmit', (event) =&gt; {
+        event.preventDefault(); // To prevent default form submission
+
+        let val = this.$.form.serialize(); // keys are name attributes of form elements.
+
+        val.createdAt = new Date();
+        Tasks.insert(val);
+
+        // Clear the form
+        this.$.form.reset();
+
+        });
+      }
+      ...
+</code>
+</pre>
+<p>Type anything in the <code>input</code> field and hit enter. A new task is added in the <code>Tasks</code> collection.
+  If you open a new browser and open the app again, you will see that the list of tasks is synchronized between all clients.
+  If you hit enter without typing anything, a new empty task is created. This is because there is no validation logic attached to the input.</p>
+
+  <h3>Form validation</h3>
+  <p>It is very easy to add client side validation to <code>paper-input</code> element. Say we want tasks' names to start with a letter and contain
+    only letters and numbers (0-9) and contain no more than 20 characters. We can use regular expressions to enforce these constraints client side like this: </p>
+
+    <pre>
+<code>
+  &lt;paper-input required error-message=&quot;Invalid task name!&quot; pattern=&quot;[a-zA-Z][a-zA-Z0-9]{0,19}&quot; type=&quot;text&quot; name=&quot;text&quot; placeholder=&quot;Type to add new tasks&quot;&gt;
+  &lt;/paper-input&gt;
+</code>
+</pre>
+<p>Then we need to update our submit logic: </p>
+<pre>
+<code>
+    event.preventDefault(); // To prevent default form submission
+    if(!this.$.form.validate()){
+      return; // We abort because the form is invalid
+    }
+
+    let val = this.$.form.serialize(); // keys are name attributes of form elements.
+    ...
+  </code>
+</pre>
+<p>We can set <code>novalidate</code> form attribute to prevent browser default validation </p>
+<p>The <code>pattern</code> property enforce our rule. <code>error-message</code> if the message we want to display to the user when it types an invalid task name.
+Now when you enter a name that does not respect the above rule and hit enter, you won't be able to submit the form and the error message will appear until a valid name is entered.
+</p>
+
+<h3>Sorting our tasks</h3>
+<p>
+  Currently, our code displays all new tasks at the bottom of the list. That's not very good for a task list,
+  because we want to see the newest tasks first.
+</p>
+<p>
+We can solve this by sorting the results using the createdAt field that is automatically added by our new code.
+We will use <code>sort</code> property of <code>polyteor-collection</code> to do so.
+</p>
+<p>Add a new properties to <code>todos-list</code> element in <code>client/todos-list/todos-list.vul.html</code> : </p>
+<pre>
+<code>
+  properties: {
+    todos: Array,
+    sort: {
+        type: Object,
+        value: {
+            createdAt: -1
+        },
+        notify: true
+    }
+  }
+  ...
+
+</code>
+</pre>
+<p>Now set the properties <code>sort</code> of <code>polyteor-collection</code> like this: </p>
+
+<marked-element markdown="[[sortHtml]]">
+    <div class="markdown-html"></div>
+</marked-element>
+<aside class="special">
+  We use square brackets in Polymer for one-way data-binding downward, host-to-child.
+</aside>
+<p>
+In the next step, we'll add some very important todo list functions: checking off and deleting tasks.
+</p>
             </google-codelab-step>
 
     </template>
@@ -26,6 +170,14 @@
       is: 'todo-lab-step-4',
       getStep: function(){
         return this.$.step;
+      },
+      properties: {
+        sortHtml: {
+          type: String,
+          value: `
+    <polyteor-collection collection="tasks" data="{{todos}}" sort="[[sort]]"></polyteor-collection>
+          `
+        }
       }
     });
   })();
