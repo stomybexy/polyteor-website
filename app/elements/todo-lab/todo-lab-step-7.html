@@ -1,0 +1,43 @@
+
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/codelab-components/google-codelab-elements.html">
+
+
+
+
+<dom-module id="todo-lab-step-7">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            </style>
+
+            <google-codelab-step id="step" label="Adding user accounts" step="6" duration="10" >
+              <p>In this step, we'll add Meteor's password based authentication in our todo app.
+                We'll nedd <code>accounts-password</code> and <code>jonatan:polyteor-auth</code> packages:
+              </p>
+<pre>
+<code>
+meteor add accounts-password jonatan:polyteor-auth
+</code>
+</pre>
+<p>Now we'll add a login button in <code>todo-lists</code> element: </p>
+
+            </google-codelab-step>
+    </template>
+    <script>
+        (function() {
+    'use strict';
+
+    Polymer({
+      is: 'todo-lab-step-7',
+      properties: {  },
+      getStep: function(){
+        return this.$.step;
+      }
+    });
+  })();
+    </script>
+</dom-module>
