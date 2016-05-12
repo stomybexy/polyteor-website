@@ -14,7 +14,7 @@
             }
             </style>
 
-            <google-codelab-step id="step" label="Adding user accounts" step="6" duration="10" >
+            <google-codelab-step id="step" label="Adding user accounts" step="7" duration="10" >
               <p>In this step, we'll add Meteor's password based authentication in our todo app.
                 We'll nedd <code>accounts-password</code> and <code>jonatan:polyteor-auth</code> packages:
               </p>
@@ -23,8 +23,124 @@
 meteor add accounts-password jonatan:polyteor-auth
 </code>
 </pre>
-<p>Now we'll add a login button in <code>todo-lists</code> element: </p>
+<p>Now we'll add a login button in our app. Let's create a new element: <code>todo-auth</code>. Create a
+  <code>client/todo-auth/todo-auth.pt.html</code> file with the following content: </p>
 
+  <marked-element markdown="[[todoAuthHtml]]">
+      <div class="markdown-html"></div>
+  </marked-element>
+<p>We need to install some bower dependencies: </p>
+<pre>
+<code>
+bower install --save PolymerElements/paper-button PolymerElements/paper-dialog PolymerElements/paper-icon-button
+</code>
+</pre>
+<p>This is element is a basic polymer accounts ui. It allow to <em>register, log in, log out </em>.
+  Let's add it to our <code>todos-list</code> element.
+</p>
+<pre>
+<code>
+&lt;link rel=&quot;import&quot; href=&quot;../todo-auth/todo-auth.pt.html&quot;&gt;
+
+...
+
+&lt;div class=&quot;container&quot;&gt;
+
+    &lt;todo-auth&gt;&lt;/todo-auth&gt;
+
+      &lt;header&gt;
+
+      ...
+
+</code>
+</pre>
+<p>Now we have a register/login button on top of the page. Try to register with a new account. You will be logged in
+automatically. If you click on the login icon again, you will be logout. The username appears to the right of the icon
+when logged in.</p>
+<p>We will add two functions:
+  <ol>
+    <li>Only display the new task input field to logged in users</li>
+    <li>Show which user created each task</li>
+  </ol>
+  To do that we will add two new fields when adding a new task:
+  <dl>
+    <dt><code>owner</code></dt>
+    <dd>The <code>_id</code> of the user that created the task</dd>
+    <dt><code>username</code></dt>
+    <dd>The <code>username</code> of the user that created the task. We will save the username directly in
+      the task object so that we don't have to look up the user every time we display the task.
+    </dd>
+  </dl>
+  In the <code>client/todos-list/todos-list.vul.html</code> file, we add some code to save the new fields:
+</p>
+<pre>
+<code>
+  ready() {
+      this.$.form.addEventListener('iron-form-presubmit', (event) => {
+          event.preventDefault(); // To prevent default form submission
+          if (!this.$.form.validate()) {
+              return; // We abort because the form is invalid
+          }
+
+          let val = this.$.form.serialize(); // keys are name attributes of form elements.
+
+          val.createdAt = new Date();
+          val.owner = Meteor.userId();
+          val.username = Meteor.user().username;
+
+          Tasks.insert(val);
+
+          // Clear the form
+          this.$.form.reset();
+
+      });
+  },
+  deleteTodo(e) {
+    ...
+</code>
+</pre>
+<p>To bind a Polymer property to the reactive function <code>Meteor.user</code>, we will use
+  <code>polyteor-user</code> element inside <code>todo-auth</code> element. Add new declared property <code>user</code>
+  to <code>todo-auth</code>:
+</p>
+<pre>
+<code>
+
+properties: {
+  user: {
+    type: Object,
+    notify: true
+  }
+}
+</code>
+</pre>
+<p>This property obtain its value from <code>polyteor-user</code> inside <code>todo-auth</code> already :</p>
+<marked-element markdown="[[todoAuthHtml2]]">
+    <div class="markdown-html"></div>
+</marked-element>
+<p>Now we bind it to a user property inside <code>todos-list</code> element: </p>
+<marked-element markdown="[[todosListHtml]]">
+    <div class="markdown-html"></div>
+</marked-element>
+<p>Then in the element local dom, we hide the new task input when no user is logged in: </p>
+<marked-element markdown="[[todosListHtml2]]">
+    <div class="markdown-html"></div>
+</marked-element>
+<p>Finally, we add a statement to display the username field on each task right before the text in <code>todo-item</code> element:</p>
+
+<marked-element markdown="[[todoItemHtml]]">
+    <div class="markdown-html"></div>
+</marked-element>
+<p>Now, users can log in and we can track which user each task belongs to.
+  In this step,
+  <ul class="checklist">
+    <li>we've created a basic custom accounts ui template: <code>todo-auth</code>.</li>
+    <li>we've used <code>polyteor-user</code> element from <code>jonatan:polyteor-auth</code> package to bind
+      a polymer property to the reactive function <code>Meteor.user</code> inside <code>todo-auth</code>.</li>
+      <li>we've also used <code>Meteor.userId</code> and <code>Meteor.user</code> functions to save logged in user's informations
+        in the <code>task</code> object. </li>
+  </ul>
+</p>
             </google-codelab-step>
     </template>
     <script>
@@ -33,7 +149,134 @@ meteor add accounts-password jonatan:polyteor-auth
 
     Polymer({
       is: 'todo-lab-step-7',
-      properties: {  },
+      properties: {
+        todoItemHtml: {
+          type: String,
+          value: `
+          <span class="text">
+            <strong>{{todo.username}}</strong> - {{todo.text}}
+          </span>
+          `
+        },
+        todosListHtml2: {
+          type: String,
+          value: `
+      <form is="iron-form" id="form" class="new-task" novalidate hidden$="[[!user]]">
+          <paper-input required error-message="Invalid task name!" pattern="[a-zA-Z][a-zA-Z0-9]{0,19}" type="text" name="text" placeholder="Type to add new tasks">
+          </paper-input>
+      </form>
+          `
+        },
+        todosListHtml: {
+          type: String,
+          value: `
+      <todo-auth user="{{user}}"></todo-auth>
+          `
+        },
+        todoAuthHtml2:{
+          type: String,
+          value: `
+      <polyteor-user user="{{user}}"></polyteor-user>
+          `
+        },
+          todoAuthHtml: {
+            type: String,
+            value:`
+            <link rel="import" href="../bower_components/polymer/polymer.html">
+            <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+            <link rel="import" href="../bower_components/paper-input/paper-input.html">
+            <link rel="import" href="../bower_components/paper-button/paper-button.html">
+            <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+            <link rel="import" href="../bower_components/iron-form/iron-form.html">
+            <link rel="import" href="../bower_components/polyteor-auth/polyteor-user.html">
+
+
+            <dom-module id="todo-auth">
+                <template>
+                    <style>
+                        :host {
+                            display: block;
+                        }
+                    </style>
+                    <polyteor-user user="{{user}}"></polyteor-user>
+
+                    <paper-icon-button icon="account-circle" on-tap="signInOut"></paper-icon-button>
+                    <label hidden$="[[!user]]">{{user.username}}</label>
+
+
+                    <paper-dialog id="loginDialog" modal>
+                        <form is='iron-form' id="form">
+                            <h2>Please sign in</h2>
+
+                            <paper-input id="username" required autofocus type="text" name="username" label="username or email"></paper-input>
+                            <paper-input id="password" required label="password" type="password" name="password"></paper-input>
+
+                            <div>
+                                <div>
+
+                                    <paper-button raised on-tap="signIn">
+                                        <!-- <iron-icon icon="account-box"></iron-icon> -->
+                                        Sign in
+                                    </paper-button>
+                                    <paper-button raised on-tap="register">
+                                        <!-- <iron-icon icon="account-box"></iron-icon> -->
+                                        Register
+                                    </paper-button>
+                                    <paper-button raised on-tap="_cancel">
+                                        <!-- <iron-icon icon="account-box"></iron-icon> -->
+                                        Cancel
+                                    </paper-button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </paper-dialog>
+                </template>
+                <script>
+                    (function() {
+                        'use strict';
+
+                        Polymer({
+                            is: 'todo-auth',
+                            signInOut() {
+                                if (!Meteor.userId()) {
+                                    this.$.loginDialog.open();
+                                } else {
+                                    Meteor.logout();
+                                }
+                            },
+                            signIn() {
+                                let user = this.$.form.serialize();
+                                Meteor.loginWithPassword(user.username, user.password, (err, res) => {
+                                    if (!err) {
+                                        this.$.form.reset();
+                                        this.$.loginDialog.close();
+                                    }
+                                });
+                            },
+                            register() {
+                                let user = this.$.form.serialize();
+                                Accounts.createUser({
+                                    username: user.username,
+                                    password: user.password
+                                }, (err, res) => {
+                                    if (!err) {
+                                        this.$.form.reset();
+                                        this.$.loginDialog.close();
+                                    }
+                                })
+                            },
+                            _cancel() {
+                                this.$.form.reset();
+                                this.$.loginDialog.close();
+                            }
+                        });
+                    })();
+                </script\>
+            </dom-module>
+            `
+          }
+        },
       getStep: function(){
         return this.$.step;
       }

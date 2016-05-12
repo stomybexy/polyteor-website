@@ -1,0 +1,115 @@
+
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/codelab-components/google-codelab-elements.html">
+
+
+
+
+<dom-module id="todo-lab-step-9">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            </style>
+
+            <google-codelab-step id="step" label="Publish and subscribe" step="9" duration="20" >
+              <p>
+                Now that we have moved all of our app's sensitive code into methods, we need to learn about the other half of Meteor's security story.
+                Until now, we have worked assuming the entire database is present on the client, queried by <code>polyteor-collection</code> element.
+                That's not good if users of our application want to store privacy-sensitive data.
+                We need a way of controlling which data Meteor sends to the client-side database.
+              </p>
+              <p>
+                Just like with <code>insecure</code> in the last step, all new Meteor apps start with the <code>autopublish</code> package.
+                Let's remove it and see what happens:
+              </p>
+
+<pre>
+<code>
+meteor remove autopublish
+</code>
+</pre>
+            <p>
+              When the app refreshes, the task list will be empty.
+              Without the <code>autopublish</code> package, we will have to specify explicitly what the server
+              sends to the client. The functions in Meteor that do this are <code>Meteor.publish</code>.
+            </p>
+            <p>
+              We will use <code>SmartPub.smartPublish</code>, a wrapper of  <code>Meteor.publish</code> to publish our data,
+              so that we can use <code>polyteor-subscription</code> element
+              that subscribes to the published data and make it available to us without the need from us to write a query on Polymer side.
+              We will need to install <code>jonatan:smart-pub</code> package.
+            </p>
+<pre>
+<code>
+meteor add jonatan:smart-pub
+</code>
+</pre>
+            <p>
+              <code>SmartPub.smartPublish</code> has to be run on both client and server. In the <code>imports/api/tasks.js</code> file, add :
+            </p>
+
+<pre>
+<code>
+  SmartPub.smartPublish('tasks', () =>{
+     return {
+       selector: {}, // Mongo selector object to filter data
+       coll: Tasks, // The collection we want to publish
+       sort: { // sort specifier.
+         createdAt: -1
+       }
+     }
+   });
+</code>
+</pre>
+<p>In the <code>todos-list</code> we then use <code>polyteor-subscription</code> in place of <code>polyteor-collection</code>. </p>
+<pre>
+<code>
+&lt;link rel=&quot;import&quot; href=&quot;../bower_components/polyteor-element/polyteor-subscription.html&quot;&gt;
+</code>
+</pre>
+
+<marked-element markdown="[[html]]">
+    <div class="markdown-html"></div>
+</marked-element>
+
+<p>Once you have added this code, all of the tasks will reappear.</p>
+<aside class="special">
+  SmartPub.smartPublish does tow things:
+  <ul>
+    <li>It publishes data on the server using Meteor.publish</li>
+    <li>It defines a meteor method that returns an object defining the published data used by
+      polyteor-subscription to automatically query the published data. </li>
+  </ul>
+</aside>
+<p>
+   To truly see the power of the publish/subscribe model, let's implement a feature that allows users to mark tasks as "private" so that no other users can see them.
+ </p>
+ <h3>Implementing private tasks</h3>
+ 
+            </google-codelab-step>
+    </template>
+    <script>
+        (function() {
+    'use strict';
+
+    Polymer({
+      is: 'todo-lab-step-9',
+      properties: {
+        html: {
+          type: String,
+          value:`
+    // <polyteor-collection collection="tasks" selector="[[selector]]" data="{{todos}}" sort="[[sort]]"></polyteor-collection>
+    <polyteor-subscription name="tasks" data="{{todos}}"></polyteor-subscription>
+          `
+        }
+      },
+      getStep: function(){
+        return this.$.step;
+      }
+    });
+  })();
+    </script>
+</dom-module>
