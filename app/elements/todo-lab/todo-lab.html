@@ -1,10 +1,11 @@
-
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 
 <link rel="import" href="../../bower_components/codelab-components/google-codelab-elements.html">
-<link rel="import" href="todo-lab-step-1.html">
+
 <link rel="import" href="todo-lab-step-2.html">
+<link rel="import" href="todo-lab-step-1.html">
+
 <link rel="import" href="todo-lab-step-3.html">
 <link rel="import" href="todo-lab-step-4.html">
 <link rel="import" href="todo-lab-step-5.html">
@@ -14,21 +15,16 @@
 <link rel="import" href="todo-lab-step-8.html">
 <link rel="import" href="todo-lab-step-9.html">
 
-
-
-
 <dom-module id="todo-lab">
   <template>
     <style>
       :host {
         display: block;
       }
+
     </style>
 
-    <google-codelab id="codeLab" title="Simple todo app" last-updated="2016-05-07" >
-
-    </google-code-lab>
-
+    <google-codelab id="codeLab" title="Simple todo app" last-updated="2016-05-07"></google-code-lab>
 
   </template>
   <script>
@@ -37,7 +33,7 @@
 
       Polymer({
         is: 'todo-lab',
-        attached: function(){
+        attached: function() {
           var codeLab = this.$.codeLab;
 
           var step1 = document.createElement('todo-lab-step-1').getStep();
@@ -67,7 +63,7 @@
           var step9 = document.createElement('todo-lab-step-9').getStep();
           Polymer.dom(codeLab).appendChild(step9);
 
-          Polymer.dom(this.root).appendChild(codeLab);
+          // Polymer.dom(this.root).appendChild(codeLab);
         }
       });
     })();
